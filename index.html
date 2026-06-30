@@ -135,7 +135,7 @@
   <div id="map"></div>
   <div id="detail">
     <div class="dhead" id="dHead">
-      <button class="close" onclick="closeDetail()">×</button>
+      <button class="close" id="dClose" type="button">×</button>
       <div class="step" id="dStep"></div>
       <h2 id="dTitle"></h2>
       <span class="acc" id="dAcc"></span>
@@ -144,8 +144,8 @@
       <div class="specs" id="dSpecs"></div>
       <div class="note"><span class="lbl">📝 Observación de campo</span><span id="dNote"></span></div>
       <div class="navbtns">
-        <button id="dPrev" onclick="nav(-1)">← Anterior</button>
-        <button id="dNext" onclick="nav(1)">Siguiente →</button>
+        <button id="dPrev" type="button">← Anterior</button>
+        <button id="dNext" type="button">Siguiente →</button>
       </div>
     </div>
   </div>
@@ -344,6 +344,13 @@ function openDetail(n){
 }
 function nav(d){const idx=POIS.findIndex(x=>x.n===current);const t=POIS[idx+d];if(t){openDetail(t.n);map.flyTo([t.lat,t.lon],18,{duration:.5});markers[t.n].openPopup();}}
 function closeDetail(){document.getElementById('detail').classList.remove('open');document.querySelectorAll('.item').forEach(i=>i.classList.remove('active'));current=null;}
+
+/* Listeners de los botones del panel (no usamos onclick inline: algunas
+   extensiones del navegador los eliminan y dejaban la X sin funcionar) */
+document.getElementById('dClose').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeDetail();});
+document.getElementById('dPrev').addEventListener('click',e=>{e.preventDefault();nav(-1);});
+document.getElementById('dNext').addEventListener('click',e=>{e.preventDefault();nav(1);});
+
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();if(current){if(e.key==='ArrowRight')nav(1);if(e.key==='ArrowLeft')nav(-1);}});
 renderList();
 </script>
