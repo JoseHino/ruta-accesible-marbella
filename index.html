@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Ruta Accesible · Casco Antiguo de Marbella</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root{
+    --ok:#1f9d55; --ok-bg:#e6f6ec;
+    --mid:#d98a04; --mid-bg:#fdf2dd;
+    --no:#d23b3b; --no-bg:#fbe6e6;
+    --ink:#1d2433; --muted:#6b7280; --line:#e6e8ee;
+    --brand:#0b6e8c; --brand-d:#085468;
+    --bg:#f5f7fa; --card:#ffffff;
+    --shadow:0 6px 24px rgba(20,30,50,.10);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg)}
+  #app{display:flex;height:100vh;overflow:hidden}
+
+  /* Sidebar */
+  #side{width:390px;max-width:42vw;background:var(--card);display:flex;flex-direction:column;border-right:1px solid var(--line);z-index:500}
+  header.top{padding:16px 18px 12px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff}
+  header.top h1{margin:0;font-size:18px;letter-spacing:.2px}
+  header.top p{margin:4px 0 0;font-size:12.5px;opacity:.92;line-height:1.45}
+  .meta-row{display:flex;gap:10px;margin-top:11px;font-size:11.5px;opacity:.96}
+  .meta-row .b{font-size:15px;font-weight:700;display:block}
+  .meta-row > div{background:rgba(255,255,255,.14);padding:5px 9px;border-radius:9px;flex:1;text-align:center}
+
+  .filters{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap;background:#fafbfc}
+  .filters button{flex:1;min-width:70px;border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 6px;font-size:11.5px;font-weight:600;cursor:pointer;color:var(--muted);transition:.15s;display:flex;align-items:center;justify-content:center;gap:5px}
+  .filters button .dot{width:9px;height:9px;border-radius:50%}
+  .filters button.active{color:#fff;border-color:transparent}
+  .filters button[data-f="all"].active{background:var(--brand)}
+  .filters button[data-f="ok"].active{background:var(--ok)}
+  .filters button[data-f="no"].active{background:var(--no)}
+
+  #list{overflow-y:auto;flex:1;padding:8px 10px 30px}
+  .item{display:flex;gap:11px;padding:11px 10px;border-radius:12px;cursor:pointer;transition:.12s;border:1px solid transparent}
+  .item:hover{background:#f3f6f9}
+  .item.active{background:#eef6fb;border-color:#bfe0ee}
+  .num{flex:none;width:34px;height:34px;border-radius:50%;color:#fff;font-size:17px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,.18);position:relative}
+  .num.ok{background:var(--ok)} .num.no{background:var(--no)}
+  .num .badge{position:absolute;bottom:-3px;right:-4px;width:16px;height:16px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;font-family:"Segoe UI Symbol",system-ui}
+  .num .badge.ok{background:var(--ok);color:#fff}
+  .num .badge.no{background:var(--no);color:#fff}
+  .item .body{min-width:0;flex:1}
+  .item .ttl{font-size:13.5px;font-weight:650;line-height:1.25}
+  .item .chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+  .chip{font-size:10.5px;padding:2px 7px;border-radius:20px;background:#eef1f5;color:#46505f;font-weight:600;white-space:nowrap}
+  .chip.warn{background:var(--mid-bg);color:#8a5800}
+  .chip.bad{background:var(--no-bg);color:#a32525}
+  .chip.good{background:var(--ok-bg);color:#137a40}
+  .chip.star{background:#efe7fb;color:#6b3fc0}
+
+  .foot{padding:10px 14px;border-top:1px solid var(--line);background:#fafbfc}
+  .foot a{display:block;text-align:center;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--brand);font-weight:650;font-size:12.5px;padding:9px;border-radius:10px}
+  .foot a:hover{background:#f0f6f9}
+
+  /* Map */
+  #map{flex:1;height:100%}
+
+  /* Pines culturales (teardrop con emoji + badge de accesibilidad) */
+  .poi-wrap{position:relative;width:36px;height:36px}
+  .poi{width:36px;height:36px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2.5px solid #fff;box-shadow:0 3px 9px rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center}
+  .poi.ok{background:var(--ok)} .poi.no{background:var(--no)}
+  .poi .ic{transform:rotate(45deg);font-size:17px;line-height:1}
+  .poi-badge{position:absolute;top:-5px;right:-7px;width:19px;height:19px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;font-family:"Segoe UI Symbol",system-ui}
+  .poi-badge.ok{background:var(--ok);color:#fff}
+  .poi-badge.no{background:var(--no);color:#fff}
+  .poi-star{position:absolute;bottom:-3px;left:-6px;width:18px;height:18px;border-radius:50%;background:#7c3aed;border:2px solid #fff;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.35)}
+
+  .legend{background:#fff;padding:10px 13px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;line-height:1.7;max-width:230px}
+  .legend b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:2px 0 4px}
+  .legend .grad{height:11px;border-radius:6px;margin:3px 0 2px;background:linear-gradient(90deg,#1f9d55,#7cb342,#e0a800,#e8590c,#d23b3b)}
+  .legend .ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:7px}
+  .legend .row{display:flex;align-items:center;gap:7px}
+  .legend .pp{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;flex:none;font-family:"Segoe UI Symbol",system-ui}
+
+  /* Detail panel */
+  #detail{position:absolute;top:0;right:0;height:100%;width:400px;max-width:92vw;background:#fff;box-shadow:-8px 0 30px rgba(20,30,50,.18);transform:translateX(105%);transition:transform .28s cubic-bezier(.4,.1,.2,1);z-index:1000;display:flex;flex-direction:column}
+  #detail.open{transform:translateX(0)}
+  .dhead{flex:none;padding:22px 22px 18px;color:#fff;position:relative}
+  .dhead.ok{background:linear-gradient(135deg,#26ab60,#178048)}
+  .dhead.no{background:linear-gradient(135deg,#e04b4b,#b32d2d)}
+  .dhead .close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;font-size:20px;cursor:pointer}
+  .dhead .step{font-size:12px;opacity:.9;font-weight:600;letter-spacing:.4px}
+  .dhead h2{margin:6px 0 8px;font-size:21px;line-height:1.2}
+  .dhead .acc{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);color:#222;font-weight:700;font-size:12.5px;padding:4px 11px;border-radius:20px}
+  .dbody{padding:18px 22px 30px;overflow-y:auto}
+  .specs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 18px}
+  .spec{background:#f6f8fa;border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+  .spec .k{font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);font-weight:700}
+  .spec .v{font-size:16px;font-weight:700;margin-top:2px}
+  .note{font-size:14px;line-height:1.6;color:#374151;background:#fbfcfd;border-left:3px solid var(--brand);padding:11px 14px;border-radius:0 10px 10px 0}
+  .note .lbl{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);font-weight:700;margin-bottom:4px}
+  .navbtns{display:flex;gap:10px;margin-top:18px}
+  .navbtns button{flex:1;padding:11px;border:1px solid var(--line);background:#fff;border-radius:11px;font-weight:650;cursor:pointer;font-size:13px;color:var(--ink)}
+  .navbtns button:hover{background:#f3f6f9}
+  .navbtns button:disabled{opacity:.4;cursor:default}
+
+  @media(max-width:760px){
+    #app{flex-direction:column}
+    #side{width:100%;max-width:100%;height:46%;border-right:none;border-bottom:1px solid var(--line)}
+    #map{height:54%}
+    #detail{width:100%;max-width:100%}
+  }
+  .leaflet-popup-content{margin:9px 12px;font-size:13px}
+  .leaflet-tooltip.seg-tip{font-size:11.5px;font-weight:600;padding:3px 8px}
+</style>
+</head>
+<body>
+<div id="app">
+  <aside id="side">
+    <header class="top">
+      <h1>♿ Ruta Accesible · Casco Antiguo</h1>
+      <p>Marbella · Itinerario cultural por el casco histórico. Las marcas señalan los <b>puntos de interés cultural</b>; el color de la ruta indica la <b>accesibilidad de cada tramo</b> (pendiente, anchura y barreras).</p>
+      <div class="meta-row">
+        <div><span class="b" id="cOk">·</span>Monum. accesibles</div>
+        <div><span class="b" id="cNo">·</span>No accesibles</div>
+        <div><span class="b">1,7 km</span>≈22 min a pie</div>
+      </div>
+    </header>
+    <div class="filters">
+      <button data-f="all" class="active"><span class="dot" style="background:#0b6e8c"></span>Todos</button>
+      <button data-f="ok"><span class="dot" style="background:var(--ok)"></span>Accesibles</button>
+      <button data-f="no"><span class="dot" style="background:var(--no)"></span>No accesibles</button>
+    </div>
+    <div id="list"></div>
+    <div class="foot">
+      <a href="https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=36.5124200,-4.8850600&destination=36.5089955,-4.8842807&waypoints=36.5113955,-4.8841898%7C36.5102335,-4.8849860%7C36.5099688,-4.8850860%7C36.5099999,-4.8839854%7C36.5102362,-4.8829385%7C36.5093456,-4.8841446" target="_blank" rel="noopener">🧭 Abrir la ruta a pie en Google Maps</a>
+    </div>
+  </aside>
+  <div id="map"></div>
+  <div id="detail">
+    <div class="dhead" id="dHead">
+      <button class="close" onclick="closeDetail()">×</button>
+      <div class="step" id="dStep"></div>
+      <h2 id="dTitle"></h2>
+      <span class="acc" id="dAcc"></span>
+    </div>
+    <div class="dbody">
+      <div class="specs" id="dSpecs"></div>
+      <div class="note"><span class="lbl">📝 Observación de campo</span><span id="dNote"></span></div>
+      <div class="navbtns">
+        <button id="dPrev" onclick="nav(-1)">← Anterior</button>
+        <button id="dNext" onclick="nav(1)">Siguiente →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ============================================================
+   Geometría real de la ruta a pie (sigue el callejero del casco)
+   ============================================================ */
+const ROUTE = [[36.512488,-4.885025],[36.512423,-4.885019],[36.512352,-4.885012],[36.512363,-4.885023],[36.512357,-4.885095],[36.512357,-4.885099],[36.512357,-4.885095],[36.512363,-4.885023],[36.512352,-4.885012],[36.51253,-4.885029],[36.512545,-4.884767],[36.512141,-4.884719],[36.511762,-4.88468],[36.51179,-4.885235],[36.511786,-4.88528],[36.51179,-4.885235],[36.511762,-4.88468],[36.511361,-4.884623],[36.511324,-4.884609],[36.511324,-4.884609],[36.511265,-4.884576],[36.511358,-4.884305],[36.511379,-4.884242],[36.511396,-4.88419],[36.511379,-4.884242],[36.511265,-4.884576],[36.511243,-4.884565],[36.511036,-4.885173],[36.511037,-4.885187],[36.511032,-4.885188],[36.511036,-4.885224],[36.511015,-4.885284],[36.510997,-4.885338],[36.51096,-4.885319],[36.510925,-4.8853],[36.510911,-4.885281],[36.510875,-4.88533],[36.510972,-4.885385],[36.510875,-4.88533],[36.510825,-4.885398],[36.510733,-4.885362],[36.510605,-4.885323],[36.510627,-4.885208],[36.510605,-4.885323],[36.510601,-4.885377],[36.510457,-4.885344],[36.510314,-4.885311],[36.510273,-4.885255],[36.51026,-4.885258],[36.510179,-4.885237],[36.510223,-4.884983],[36.510179,-4.885237],[36.510112,-4.88522],[36.510098,-4.885205],[36.510033,-4.88523],[36.510047,-4.885131],[36.510032,-4.885114],[36.509992,-4.88506],[36.510032,-4.885114],[36.510047,-4.885131],[36.510066,-4.885029],[36.510096,-4.885037],[36.510141,-4.884793],[36.510152,-4.88476],[36.510171,-4.884734],[36.510191,-4.884721],[36.510215,-4.884714],[36.510239,-4.884718],[36.510257,-4.884726],[36.510272,-4.884678],[36.510326,-4.884506],[36.51038,-4.884334],[36.510397,-4.88427],[36.510255,-4.884205],[36.510056,-4.884175],[36.510038,-4.884171],[36.509826,-4.884233],[36.509946,-4.883949],[36.510007,-4.883804],[36.509976,-4.883711],[36.509982,-4.883652],[36.510083,-4.883217],[36.510084,-4.883192],[36.510344,-4.883159],[36.510347,-4.883146],[36.510307,-4.883141],[36.510307,-4.883054],[36.510307,-4.883044],[36.510307,-4.883044],[36.510307,-4.883044],[36.510307,-4.883044],[36.510307,-4.883054],[36.510307,-4.883141],[36.510347,-4.883146],[36.510344,-4.883159],[36.510084,-4.883192],[36.509902,-4.88319],[36.509893,-4.883217],[36.509765,-4.883213],[36.509744,-4.883212],[36.509764,-4.883104],[36.509718,-4.883091],[36.509694,-4.88318],[36.509718,-4.883091],[36.509764,-4.883104],[36.509744,-4.883212],[36.509765,-4.883213],[36.509893,-4.883217],[36.509902,-4.88319],[36.509904,-4.88319],[36.510084,-4.883192],[36.510083,-4.883217],[36.510029,-4.883451],[36.509982,-4.883652],[36.509976,-4.883711],[36.510007,-4.883804],[36.509826,-4.884233],[36.50981,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509444,-4.884242],[36.509464,-4.884155],[36.509444,-4.884242],[36.509417,-4.884237],[36.509334,-4.884214],[36.509099,-4.884148],[36.509008,-4.884123],[36.508995,-4.884281],[36.508959,-4.88473],[36.509315,-4.884754],[36.509293,-4.885063],[36.509294,-4.885077],[36.509298,-4.885134],[36.509375,-4.8854],[36.509381,-4.885422],[36.509416,-4.885529],[36.50943,-4.885572],[36.509409,-4.885579],[36.50914,-4.88567],[36.50909,-4.885699],[36.509035,-4.885731],[36.508989,-4.88575],[36.508949,-4.885773],[36.50888,-4.885811],[36.508849,-4.885824],[36.508837,-4.885797],[36.50882,-4.885775],[36.508798,-4.88576],[36.508773,-4.885754],[36.508755,-4.885755],[36.508736,-4.885762],[36.50872,-4.885774],[36.508706,-4.885791],[36.508684,-4.885717]];
+
+/* ============================================================
+   PUNTOS DE INTERÉS CULTURAL  → son los ÚNICOS marcadores del mapa
+   acc:true = accesible · acc:false = NO accesible (se señala en rojo)
+   ============================================================ */
+const POIS = [
+ {n:1,type:'⛪',acc:false,lat:36.5124200,lon:-4.8850600,short:'Iglesia del Santo Cristo',title:'Iglesia / Ermita del Santo Cristo',tag:'INICIO',
+  specs:{Edificio:'No accesible',Plaza:'Accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['Plaza accesible','good']],
+  note:'Punto de inicio. La iglesia del Santo Cristo tiene un escalón de acceso que la hace NO accesible en silla de ruedas. La plaza, en cambio, sí es accesible (paso a nivel, 2 cm de desnivel).'},
+
+ {n:2,type:'🏰',acc:true,lat:36.5113955,lon:-4.8841898,short:'Castillo y Murallas',title:'Castillo y Murallas de Marbella',
+  specs:{Entorno:'Accesible',Acceso:'C. Portada','Por C. Escuela':'-10º · 95 cm'},chips:[['Entorno accesible','good'],['Mejor por C. Portada','good']],
+  note:'Los alrededores del castillo y las murallas son accesibles por Calle Portada. Evitar el acceso por Calle Escuela, que tiene 95 cm de ancho y 10º de pendiente negativa.'},
+
+ {n:3,type:'🍊',acc:true,star:true,lat:36.5102335,lon:-4.8849860,short:'Plaza de los Naranjos ★',title:'Plaza de los Naranjos + Oficina de Turismo',
+  specs:{Plaza:'Accesible',Oficina:'Paso a nivel',Audición:'Bucle magnético'},chips:[['Accesible','good'],['Paso a nivel','good'],['Bucle inducción','star']],
+  note:'El corazón del casco antiguo. Plaza totalmente accesible. La Oficina de Turismo tiene paso a nivel y bucles de inducción magnética (clave para personas con audífono o implante coclear).'},
+
+ {n:4,type:'⛪',acc:true,lat:36.5099688,lon:-4.8850860,short:'Capilla de Santiago',title:'Capilla de Santiago · Pl. Fernando Alcalá',
+  specs:{Puerta:'2,20 m',Acceso:'Paso a nivel'},chips:[['Puerta 2,20 m','good'],['Paso a nivel','good']],
+  note:'Junto a la Plaza Fernando Alcalá. Accesible: puerta de acceso de 2,20 m y entrada a nivel.'},
+
+ {n:5,type:'⛪',acc:true,lat:36.5099999,lon:-4.8839854,short:'Iglesia de la Encarnación',title:'Iglesia de la Encarnación',
+  specs:{Edificio:'Accesible'},chips:[['Accesible','good']],
+  note:'El principal templo del casco antiguo. Es accesible.'},
+
+ {n:6,type:'⛪',acc:false,lat:36.5102806,lon:-4.8830227,short:'Capilla del Santo Sepulcro',title:'Capilla del Santo Sepulcro · C. Trinidad',
+  specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
+  note:'En Calle Trinidad. NO es accesible: hay un escalón en el acceso.'},
+
+ {n:7,type:'🏛️',acc:true,lat:36.5102362,lon:-4.8829385,short:'Museo del Grabado',title:'Museo del Grabado Español Contemporáneo',
+  specs:{Museo:'Accesible',Llegada:'C. Salinas -4º'},chips:[['Museo accesible','good'],['-4º','good']],
+  note:'Se llega bajando por Calle Salinas (-4º) y girando a Calle Hospital Bazán. El museo es accesible.'},
+
+ {n:8,type:'⛪',acc:false,lat:36.5094500,lon:-4.8841500,short:'Capilla de San Juan de Dios',title:'Capilla de San Juan de Dios · C. Caridad',
+  specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
+  note:'En Calle Caridad. NO es accesible: tiene un escalón en el acceso.'},
+
+ {n:9,type:'🏛️',acc:true,lat:36.5093456,lon:-4.8841446,short:'El Hospitalillo',title:'El Hospitalillo',
+  specs:{Rampa:'7º',Acceso:'115 cm',Puerta:'Abatible'},chips:[['Rampa 7º','good'],['115 cm','good'],['Puerta abatible','good']],
+  note:'Bajando por Calle Caridad. Accesible mediante rampa de 7º y 115 cm de ancho de acceso; la puerta es abatible.'},
+
+ {n:10,type:'🗿',acc:true,lat:36.5089955,lon:-4.8842807,short:'Estatua "La Bella del Mar"',title:'Estatua "La Bella del Mar" · Fin',tag:'FIN',
+  specs:{Monumento:'Al aire libre',Entorno:'Accesible'},chips:[['Accesible','good']],
+  note:'Final del recorrido cultural, en Calle Tetuán. Monumento al aire libre con entorno accesible. Desde aquí se desciende a la Alameda.'}
+];
+
+/* ============================================================
+   PUNTOS DE OBSERVACIÓN DE TRAMO (no se dibujan como marcadores)
+   Sólo sirven para COLOREAR la ruta según su accesibilidad.
+   score 0-100  (100 = totalmente llano y ancho · 0 = inaccesible)
+   ============================================================ */
+const SEG = [
+ {lat:36.5123712,lon:-4.8851009,score:96,label:'Acceso plaza Santo Cristo · a nivel (2 cm)'},
+ {lat:36.5116302,lon:-4.8852611,score:74,label:'Calle Ancha · peatonal a nivel, acera 70 cm'},
+ {lat:36.5113000,lon:-4.8847000,score:80,label:'Calle Montenebros · +5º'},
+ {lat:36.5112216,lon:-4.8842332,score:45,label:'Calle Escuela (al castillo) · 95 cm, -10º'},
+ {lat:36.5113955,lon:-4.8841898,score:95,label:'Calle Portada (murallas) · accesible'},
+ {lat:36.5109739,lon:-4.8853793,score:95,label:'Calle Chorrón → Pl. Puente de Ronda · sin impedimento'},
+ {lat:36.5106000,lon:-4.8852000,score:78,label:'Calle de la Cruz · -5º, ancho suficiente'},
+ {lat:36.5104572,lon:-4.8853441,score:80,label:'Calle Pasaje · 1,65 m, -5º'},
+ {lat:36.5102335,lon:-4.8849860,score:98,label:'Plaza de los Naranjos · accesible'},
+ {lat:36.5099688,lon:-4.8850860,score:95,label:'Pl. Fernando Alcalá · paso a nivel'},
+ {lat:36.5103256,lon:-4.8845060,score:92,label:'Pl. Gral. Chinchilla → Calle Carmen'},
+ {lat:36.5099999,lon:-4.8839854,score:92,label:'Entorno Iglesia de la Encarnación'},
+ {lat:36.5102806,lon:-4.8830227,score:88,label:'Calle Trinidad'},
+ {lat:36.5102362,lon:-4.8829385,score:86,label:'Calle Salinas · -4º'},
+ {lat:36.5097186,lon:-4.8831910,score:58,label:'Calle Mendoza → Pl. Altamirano · -9º'},
+ {lat:36.5099044,lon:-4.8831904,score:58,label:'Calle Pelleja · +9º'},
+ {lat:36.5100288,lon:-4.8834509,score:90,label:'Calle Viento · 140 cm, 2º'},
+ {lat:36.5094500,lon:-4.8841500,score:84,label:'Calle Caridad'},
+ {lat:36.5093456,lon:-4.8841446,score:90,label:'El Hospitalillo · rampa 7º, 115 cm'},
+ {lat:36.5089955,lon:-4.8842807,score:92,label:'Calle Tetuán'},
+ {lat:36.5092942,lon:-4.8850765,score:92,label:'C. Padre F. Echamendi'},
+ {lat:36.5094512,lon:-4.8855113,score:70,label:'Plaza de África · -3º, semáforo sin acústico'},
+ {lat:36.5087178,lon:-4.8857015,score:58,label:'Acceso a la Alameda · rampa -8º'}
+];
+
+/* ============================================================
+   Mapa base
+   ============================================================ */
+const map=L.map('map',{zoomControl:true}).setView([36.5102,-4.8843],16);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap, &copy; CARTO'}).addTo(map);
+
+/* ---- Color de accesibilidad: verde → rojo según score ---- */
+function scoreColor(s){
+  if(s>=85) return '#1f9d55'; // verde  · accesible / llano
+  if(s>=72) return '#7cb342'; // lima   · dificultad leve
+  if(s>=58) return '#e0a800'; // ámbar  · dificultad moderada
+  if(s>=45) return '#e8590c'; // naranja· difícil
+  return '#d23b3b';           // rojo   · muy difícil
+}
+function scoreLabel(s){
+  if(s>=85) return 'Accesible';
+  if(s>=72) return 'Dificultad leve';
+  if(s>=58) return 'Dificultad moderada';
+  if(s>=45) return 'Difícil';
+  return 'Muy difícil';
+}
+function nearestSeg(lat,lon){
+  let best=SEG[0],bd=Infinity;
+  for(const s of SEG){const d=(s.lat-lat)**2+(s.lon-lon)**2;if(d<bd){bd=d;best=s;}}
+  return best;
+}
+
+/* ---- Ruta: funda blanca + tramos coloreados por accesibilidad ---- */
+L.polyline(ROUTE,{color:'#fff',weight:9,opacity:.9,lineCap:'round',lineJoin:'round'}).addTo(map);
+for(let i=0;i<ROUTE.length-1;i++){
+  const a=ROUTE[i],b=ROUTE[i+1];
+  const mlat=(a[0]+b[0])/2,mlon=(a[1]+b[1])/2;
+  const seg=nearestSeg(mlat,mlon);
+  L.polyline([a,b],{color:scoreColor(seg.score),weight:5.5,opacity:.98,lineCap:'round',lineJoin:'round'})
+    .addTo(map)
+    .bindTooltip(`${seg.label} · <b>${scoreLabel(seg.score)}</b>`,{sticky:true,className:'seg-tip'});
+}
+
+/* ---- Marcadores: SOLO puntos culturales ---- */
+const markers={};
+POIS.forEach(p=>{
+  const cls=p.acc?'ok':'no';
+  const badge=p.acc?'♿︎':'✕';
+  const star=p.star?'<div class="poi-star">★</div>':'';
+  const html=`<div class="poi-wrap"><div class="poi ${cls}"><span class="ic">${p.type}</span></div><div class="poi-badge ${cls}">${badge}</div>${star}</div>`;
+  const icon=L.divIcon({className:'',html,iconSize:[36,36],iconAnchor:[18,36],popupAnchor:[0,-34]});
+  const m=L.marker([p.lat,p.lon],{icon}).addTo(map);
+  m.bindPopup(`<b>${p.type} ${p.short}</b><br><span style="color:${p.acc?'#1f9d55':'#d23b3b'};font-weight:700">${p.acc?'♿ Accesible':'🚫 No accesible'}</span>`);
+  m.on('click',()=>openDetail(p.n));
+  markers[p.n]=m;
+});
+map.fitBounds(L.polyline(ROUTE).getBounds().pad(0.12));
+
+/* ---- Leyenda ---- */
+const lg=L.control({position:'bottomright'});
+lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
+  `<b>Accesibilidad del tramo</b>
+   <div class="grad"></div>
+   <div class="ends"><span>Accesible</span><span>Muy difícil</span></div>
+   <div style="font-size:10.5px;color:#6b7280;margin:-2px 0 8px">pendiente · anchura · barreras</div>
+   <b>Puntos culturales</b>
+   <div class="row"><span class="pp" style="background:#1f9d55">♿</span>Monumento accesible</div>
+   <div class="row"><span class="pp" style="background:#d23b3b">✕</span>Monumento NO accesible</div>
+   <div class="row"><span class="pp" style="background:#7c3aed">★</span>Bucle de inducción magnética</div>`;
+  return d;};
+lg.addTo(map);
+
+/* ============================================================
+   Listado lateral (puntos culturales)
+   ============================================================ */
+const listEl=document.getElementById('list');
+function renderList(filter='all'){
+  listEl.innerHTML='';
+  POIS.filter(p=>filter==='all'||(filter==='ok'&&p.acc)||(filter==='no'&&!p.acc)).forEach(p=>{
+    const cls=p.acc?'ok':'no';
+    const badge=p.acc?'♿︎':'✕';
+    const chips=p.chips.map(c=>`<span class="chip ${c[1]||''}">${c[0]}</span>`).join('');
+    const el=document.createElement('div');el.className='item';el.dataset.n=p.n;
+    el.innerHTML=`<div class="num ${cls}"><span>${p.type}</span><div class="badge ${cls}">${badge}</div></div>`+
+                 `<div class="body"><div class="ttl">${p.title}</div><div class="chips">${chips}</div></div>`;
+    el.onclick=()=>{openDetail(p.n);map.flyTo([p.lat,p.lon],18,{duration:.6});markers[p.n].openPopup();};
+    listEl.appendChild(el);
+  });
+}
+document.querySelectorAll('.filters button').forEach(b=>{b.onclick=()=>{document.querySelectorAll('.filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList(b.dataset.f);};});
+document.getElementById('cOk').textContent=POIS.filter(p=>p.acc).length;
+document.getElementById('cNo').textContent=POIS.filter(p=>!p.acc).length;
+
+/* ============================================================
+   Panel de detalle
+   ============================================================ */
+let current=null;
+function openDetail(n){
+  const p=POIS.find(x=>x.n===n);if(!p)return;current=n;
+  const cls=p.acc?'ok':'no';
+  const h=document.getElementById('dHead');h.className='dhead '+cls;
+  const idx=POIS.findIndex(x=>x.n===n);
+  document.getElementById('dStep').textContent=(p.tag?p.tag+' · ':'')+`PUNTO ${idx+1} DE ${POIS.length}`;
+  document.getElementById('dTitle').textContent=p.type+' '+p.title;
+  document.getElementById('dAcc').innerHTML=p.acc?'♿ Accesible':'🚫 No accesible';
+  document.getElementById('dSpecs').innerHTML=Object.entries(p.specs).map(([k,v])=>`<div class="spec"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+  document.getElementById('dNote').textContent=p.note;
+  document.getElementById('dPrev').disabled=idx===0;
+  document.getElementById('dNext').disabled=idx===POIS.length-1;
+  document.getElementById('detail').classList.add('open');
+  document.querySelectorAll('.item').forEach(i=>i.classList.toggle('active',+i.dataset.n===n));
+}
+function nav(d){const idx=POIS.findIndex(x=>x.n===current);const t=POIS[idx+d];if(t){openDetail(t.n);map.flyTo([t.lat,t.lon],18,{duration:.5});markers[t.n].openPopup();}}
+function closeDetail(){document.getElementById('detail').classList.remove('open');document.querySelectorAll('.item').forEach(i=>i.classList.remove('active'));current=null;}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();if(current){if(e.key==='ArrowRight')nav(1);if(e.key==='ArrowLeft')nav(-1);}});
+renderList();
+</script>
+</body>
+</html>
