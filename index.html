@@ -119,7 +119,7 @@
       <div class="meta-row">
         <div><span class="b" id="cOk">·</span>Monum. accesibles</div>
         <div><span class="b" id="cNo">·</span>No accesibles</div>
-        <div><span class="b">1,7 km</span>≈22 min a pie</div>
+        <div><span class="b">1,9 km</span>≈24 min a pie</div>
       </div>
     </header>
     <div class="filters">
@@ -129,7 +129,7 @@
     </div>
     <div id="list"></div>
     <div class="foot">
-      <a href="https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=36.5124200,-4.8850600&destination=36.5089955,-4.8842807&waypoints=36.5113955,-4.8841898%7C36.5102335,-4.8849860%7C36.5099688,-4.8850860%7C36.5099999,-4.8839854%7C36.5102362,-4.8829385%7C36.5093456,-4.8841446" target="_blank" rel="noopener">🧭 Abrir la ruta a pie en Google Maps</a>
+      <a href="https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=36.512211,-4.885142&destination=36.509008,-4.884123&waypoints=36.510775,-4.883621%7C36.510366,-4.885045%7C36.510042,-4.885008%7C36.510080,-4.884099%7C36.510086,-4.882808%7C36.509470,-4.884240" target="_blank" rel="noopener">🧭 Abrir la ruta a pie en Google Maps</a>
     </div>
   </aside>
   <div id="map"></div>
@@ -156,50 +156,50 @@
 /* ============================================================
    Geometría real de la ruta a pie (sigue el callejero del casco)
    ============================================================ */
-const ROUTE = [[36.512488,-4.885025],[36.512423,-4.885019],[36.512352,-4.885012],[36.512363,-4.885023],[36.512357,-4.885095],[36.512357,-4.885099],[36.512357,-4.885095],[36.512363,-4.885023],[36.512352,-4.885012],[36.51253,-4.885029],[36.512545,-4.884767],[36.512141,-4.884719],[36.511762,-4.88468],[36.51179,-4.885235],[36.511786,-4.88528],[36.51179,-4.885235],[36.511762,-4.88468],[36.511361,-4.884623],[36.511324,-4.884609],[36.511324,-4.884609],[36.511265,-4.884576],[36.511358,-4.884305],[36.511379,-4.884242],[36.511396,-4.88419],[36.511379,-4.884242],[36.511265,-4.884576],[36.511243,-4.884565],[36.511036,-4.885173],[36.511037,-4.885187],[36.511032,-4.885188],[36.511036,-4.885224],[36.511015,-4.885284],[36.510997,-4.885338],[36.51096,-4.885319],[36.510925,-4.8853],[36.510911,-4.885281],[36.510875,-4.88533],[36.510972,-4.885385],[36.510875,-4.88533],[36.510825,-4.885398],[36.510733,-4.885362],[36.510605,-4.885323],[36.510627,-4.885208],[36.510605,-4.885323],[36.510601,-4.885377],[36.510457,-4.885344],[36.510314,-4.885311],[36.510273,-4.885255],[36.51026,-4.885258],[36.510179,-4.885237],[36.510223,-4.884983],[36.510179,-4.885237],[36.510112,-4.88522],[36.510098,-4.885205],[36.510033,-4.88523],[36.510047,-4.885131],[36.510032,-4.885114],[36.509992,-4.88506],[36.510032,-4.885114],[36.510047,-4.885131],[36.510066,-4.885029],[36.510096,-4.885037],[36.510141,-4.884793],[36.510152,-4.88476],[36.510171,-4.884734],[36.510191,-4.884721],[36.510215,-4.884714],[36.510239,-4.884718],[36.510257,-4.884726],[36.510272,-4.884678],[36.510326,-4.884506],[36.51038,-4.884334],[36.510397,-4.88427],[36.510255,-4.884205],[36.510056,-4.884175],[36.510038,-4.884171],[36.509826,-4.884233],[36.509946,-4.883949],[36.510007,-4.883804],[36.509976,-4.883711],[36.509982,-4.883652],[36.510083,-4.883217],[36.510084,-4.883192],[36.510344,-4.883159],[36.510347,-4.883146],[36.510307,-4.883141],[36.510307,-4.883054],[36.510307,-4.883044],[36.510307,-4.883044],[36.510307,-4.883044],[36.510307,-4.883044],[36.510307,-4.883054],[36.510307,-4.883141],[36.510347,-4.883146],[36.510344,-4.883159],[36.510084,-4.883192],[36.509902,-4.88319],[36.509893,-4.883217],[36.509765,-4.883213],[36.509744,-4.883212],[36.509764,-4.883104],[36.509718,-4.883091],[36.509694,-4.88318],[36.509718,-4.883091],[36.509764,-4.883104],[36.509744,-4.883212],[36.509765,-4.883213],[36.509893,-4.883217],[36.509902,-4.88319],[36.509904,-4.88319],[36.510084,-4.883192],[36.510083,-4.883217],[36.510029,-4.883451],[36.509982,-4.883652],[36.509976,-4.883711],[36.510007,-4.883804],[36.509826,-4.884233],[36.50981,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509444,-4.884242],[36.509464,-4.884155],[36.509444,-4.884242],[36.509417,-4.884237],[36.509334,-4.884214],[36.509099,-4.884148],[36.509008,-4.884123],[36.508995,-4.884281],[36.508959,-4.88473],[36.509315,-4.884754],[36.509293,-4.885063],[36.509294,-4.885077],[36.509298,-4.885134],[36.509375,-4.8854],[36.509381,-4.885422],[36.509416,-4.885529],[36.50943,-4.885572],[36.509409,-4.885579],[36.50914,-4.88567],[36.50909,-4.885699],[36.509035,-4.885731],[36.508989,-4.88575],[36.508949,-4.885773],[36.50888,-4.885811],[36.508849,-4.885824],[36.508837,-4.885797],[36.50882,-4.885775],[36.508798,-4.88576],[36.508773,-4.885754],[36.508755,-4.885755],[36.508736,-4.885762],[36.50872,-4.885774],[36.508706,-4.885791],[36.508684,-4.885717]];
+const ROUTE = [[36.512211,-4.885142],[36.512299,-4.885139],[36.512314,-4.885174],[36.512338,-4.885175],[36.512337,-4.885191],[36.512262,-4.885184],[36.512181,-4.885186],[36.512059,-4.885204],[36.511790,-4.885235],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511265,-4.884576],[36.511243,-4.884565],[36.511195,-4.884539],[36.511184,-4.884525],[36.511140,-4.884395],[36.511126,-4.884380],[36.510931,-4.884244],[36.510727,-4.884119],[36.510480,-4.884012],[36.510483,-4.883992],[36.510531,-4.883821],[36.510585,-4.883619],[36.510644,-4.883640],[36.510707,-4.883663],[36.510775,-4.883621],[36.510707,-4.883663],[36.510644,-4.883640],[36.510585,-4.883619],[36.510531,-4.883821],[36.510483,-4.883992],[36.510480,-4.884012],[36.510727,-4.884119],[36.510931,-4.884244],[36.511126,-4.884380],[36.511140,-4.884395],[36.511184,-4.884525],[36.511195,-4.884539],[36.511243,-4.884565],[36.511265,-4.884576],[36.511379,-4.884242],[36.511462,-4.883984],[36.511379,-4.884242],[36.511265,-4.884576],[36.511324,-4.884609],[36.511271,-4.884800],[36.511149,-4.885224],[36.511122,-4.885333],[36.511117,-4.885222],[36.511041,-4.885189],[36.511037,-4.885187],[36.511032,-4.885188],[36.511036,-4.885224],[36.511015,-4.885284],[36.510997,-4.885338],[36.510960,-4.885319],[36.510925,-4.885300],[36.510911,-4.885281],[36.510875,-4.885330],[36.510825,-4.885398],[36.510733,-4.885362],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510323,-4.885299],[36.510327,-4.885280],[36.510331,-4.885261],[36.510347,-4.885177],[36.510362,-4.885096],[36.510355,-4.885094],[36.510366,-4.885045],[36.510355,-4.885094],[36.510362,-4.885096],[36.510347,-4.885177],[36.510331,-4.885261],[36.510327,-4.885280],[36.510323,-4.885299],[36.510314,-4.885311],[36.510273,-4.885255],[36.510260,-4.885258],[36.510179,-4.885237],[36.510112,-4.885219],[36.510098,-4.885205],[36.510084,-4.885183],[36.510078,-4.885153],[36.510079,-4.885126],[36.510095,-4.885037],[36.510066,-4.885029],[36.510042,-4.885008],[36.510066,-4.885029],[36.510080,-4.884955],[36.510095,-4.884880],[36.510116,-4.884772],[36.510121,-4.884744],[36.510135,-4.884678],[36.510144,-4.884629],[36.510173,-4.884640],[36.510250,-4.884668],[36.510272,-4.884678],[36.510380,-4.884334],[36.510397,-4.884270],[36.510255,-4.884205],[36.510056,-4.884175],[36.510061,-4.884154],[36.510080,-4.884099],[36.510113,-4.884114],[36.510129,-4.884073],[36.510204,-4.883798],[36.510150,-4.883775],[36.510190,-4.883610],[36.510199,-4.883591],[36.510248,-4.883524],[36.510259,-4.883497],[36.510344,-4.883159],[36.510347,-4.883146],[36.510307,-4.883141],[36.510306,-4.883054],[36.510307,-4.883044],[36.510335,-4.883047],[36.510307,-4.883044],[36.510306,-4.883054],[36.510307,-4.883141],[36.510347,-4.883146],[36.510344,-4.883159],[36.510654,-4.883275],[36.510344,-4.883159],[36.510084,-4.883191],[36.510086,-4.882808],[36.509989,-4.882778],[36.509983,-4.882797],[36.509850,-4.882989],[36.509806,-4.883032],[36.509777,-4.883080],[36.509772,-4.883089],[36.509780,-4.883109],[36.509764,-4.883173],[36.509771,-4.883200],[36.509765,-4.883213],[36.509893,-4.883217],[36.509901,-4.883190],[36.510084,-4.883191],[36.510083,-4.883217],[36.509982,-4.883652],[36.509976,-4.883711],[36.509987,-4.883714],[36.510140,-4.883770],[36.510150,-4.883775],[36.510204,-4.883798],[36.510129,-4.884073],[36.510113,-4.884114],[36.510080,-4.884099],[36.510061,-4.884154],[36.510056,-4.884175],[36.510038,-4.884171],[36.509826,-4.884233],[36.509822,-4.884277],[36.509817,-4.884286],[36.509760,-4.884292],[36.509712,-4.884298],[36.509676,-4.884298],[36.509641,-4.884298],[36.509626,-4.884302],[36.509444,-4.884242],[36.509417,-4.884237],[36.509099,-4.884148],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509293,-4.885063],[36.509298,-4.885134],[36.509375,-4.885400],[36.509381,-4.885422],[36.509430,-4.885572],[36.509409,-4.885579]];
 
 /* ============================================================
    PUNTOS DE INTERÉS CULTURAL  → son los ÚNICOS marcadores del mapa
    acc:true = accesible · acc:false = NO accesible (se señala en rojo)
    ============================================================ */
 const POIS = [
- {n:1,type:'⛪',acc:false,lat:36.5124200,lon:-4.8850600,short:'Iglesia del Santo Cristo',title:'Iglesia / Ermita del Santo Cristo',tag:'INICIO',
+ {n:1,type:'⛪',acc:false,lat:36.512211,lon:-4.885142,short:'Iglesia del Santo Cristo',title:'Iglesia / Ermita del Santo Cristo',tag:'INICIO',
   specs:{Edificio:'No accesible',Plaza:'Accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['Plaza accesible','good']],
   note:'Punto de inicio. La iglesia del Santo Cristo tiene un escalón de acceso que la hace NO accesible en silla de ruedas. La plaza, en cambio, sí es accesible (paso a nivel, 2 cm de desnivel).'},
 
- {n:2,type:'🏰',acc:true,lat:36.5113955,lon:-4.8841898,short:'Castillo y Murallas',title:'Castillo y Murallas de Marbella',
+ {n:2,type:'🏰',acc:true,lat:36.510775,lon:-4.883621,short:'Castillo y Murallas',title:'Castillo y Murallas de Marbella',
   specs:{Entorno:'Accesible',Acceso:'C. Portada','Por C. Escuela':'-10º · 95 cm'},chips:[['Entorno accesible','good'],['Mejor por C. Portada','good']],
   note:'Los alrededores del castillo y las murallas son accesibles por Calle Portada. Evitar el acceso por Calle Escuela, que tiene 95 cm de ancho y 10º de pendiente negativa.'},
 
- {n:3,type:'🍊',acc:true,star:true,lat:36.5102335,lon:-4.8849860,short:'Plaza de los Naranjos ★',title:'Plaza de los Naranjos + Oficina de Turismo',
+ {n:3,type:'🍊',acc:true,star:true,lat:36.510366,lon:-4.885045,short:'Plaza de los Naranjos ★',title:'Plaza de los Naranjos + Oficina de Turismo',
   specs:{Plaza:'Accesible',Oficina:'Paso a nivel',Audición:'Bucle magnético'},chips:[['Accesible','good'],['Paso a nivel','good'],['Bucle inducción','star']],
   note:'El corazón del casco antiguo. Plaza totalmente accesible. La Oficina de Turismo tiene paso a nivel y bucles de inducción magnética (clave para personas con audífono o implante coclear).'},
 
- {n:4,type:'⛪',acc:true,lat:36.5099688,lon:-4.8850860,short:'Capilla de Santiago',title:'Capilla de Santiago · Pl. Fernando Alcalá',
+ {n:4,type:'⛪',acc:true,lat:36.510042,lon:-4.885008,short:'Capilla de Santiago',title:'Capilla de Santiago · Pl. Fernando Alcalá',
   specs:{Puerta:'2,20 m',Acceso:'Paso a nivel'},chips:[['Puerta 2,20 m','good'],['Paso a nivel','good']],
   note:'Junto a la Plaza Fernando Alcalá. Accesible: puerta de acceso de 2,20 m y entrada a nivel.'},
 
- {n:5,type:'⛪',acc:true,lat:36.5099999,lon:-4.8839854,short:'Iglesia de la Encarnación',title:'Iglesia de la Encarnación',
+ {n:5,type:'⛪',acc:true,lat:36.510080,lon:-4.884099,short:'Iglesia de la Encarnación',title:'Iglesia de la Encarnación',
   specs:{Edificio:'Accesible'},chips:[['Accesible','good']],
   note:'El principal templo del casco antiguo. Es accesible.'},
 
- {n:6,type:'⛪',acc:false,lat:36.5102806,lon:-4.8830227,short:'Capilla del Santo Sepulcro',title:'Capilla del Santo Sepulcro · C. Trinidad',
+ {n:6,type:'⛪',acc:false,lat:36.510335,lon:-4.883047,short:'Capilla del Santo Sepulcro',title:'Capilla del Santo Sepulcro · C. Trinidad',
   specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
   note:'En Calle Trinidad. NO es accesible: hay un escalón en el acceso.'},
 
- {n:7,type:'🏛️',acc:true,lat:36.5102362,lon:-4.8829385,short:'Museo del Grabado',title:'Museo del Grabado Español Contemporáneo',
+ {n:7,type:'🏛️',acc:true,lat:36.510086,lon:-4.882808,short:'Museo del Grabado',title:'Museo del Grabado Español Contemporáneo',
   specs:{Museo:'Accesible',Llegada:'C. Salinas -4º'},chips:[['Museo accesible','good'],['-4º','good']],
   note:'Se llega bajando por Calle Salinas (-4º) y girando a Calle Hospital Bazán. El museo es accesible.'},
 
- {n:8,type:'⛪',acc:false,lat:36.5094500,lon:-4.8841500,short:'Capilla de San Juan de Dios',title:'Capilla de San Juan de Dios · C. Caridad',
+ {n:8,type:'⛪',acc:false,lat:36.509780,lon:-4.884290,short:'Capilla de San Juan de Dios',title:'Capilla de San Juan de Dios · C. Caridad',
   specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
   note:'En Calle Caridad. NO es accesible: tiene un escalón en el acceso.'},
 
- {n:9,type:'🏛️',acc:true,lat:36.5093456,lon:-4.8841446,short:'El Hospitalillo',title:'El Hospitalillo',
+ {n:9,type:'🏛️',acc:true,lat:36.509470,lon:-4.884240,short:'El Hospitalillo',title:'El Hospitalillo',
   specs:{Rampa:'7º',Acceso:'115 cm',Puerta:'Abatible'},chips:[['Rampa 7º','good'],['115 cm','good'],['Puerta abatible','good']],
   note:'Bajando por Calle Caridad. Accesible mediante rampa de 7º y 115 cm de ancho de acceso; la puerta es abatible.'},
 
- {n:10,type:'🗿',acc:true,lat:36.5089955,lon:-4.8842807,short:'Estatua "La Bella del Mar"',title:'Estatua "La Bella del Mar" · Fin',tag:'FIN',
+ {n:10,type:'🗿',acc:true,lat:36.509008,lon:-4.884123,short:'Estatua "La Bella del Mar"',title:'Estatua "La Bella del Mar" · Fin',tag:'FIN',
   specs:{Monumento:'Al aire libre',Entorno:'Accesible'},chips:[['Accesible','good']],
   note:'Final del recorrido cultural, en Calle Tetuán. Monumento al aire libre con entorno accesible. Desde aquí se desciende a la Alameda.'}
 ];
@@ -210,29 +210,32 @@ const POIS = [
    score 0-100  (100 = totalmente llano y ancho · 0 = inaccesible)
    ============================================================ */
 const SEG = [
- {lat:36.5123712,lon:-4.8851009,score:96,label:'Acceso plaza Santo Cristo · a nivel (2 cm)'},
- {lat:36.5116302,lon:-4.8852611,score:74,label:'Calle Ancha · peatonal a nivel, acera 70 cm'},
- {lat:36.5113000,lon:-4.8847000,score:80,label:'Calle Montenebros · +5º'},
- {lat:36.5112216,lon:-4.8842332,score:45,label:'Calle Escuela (al castillo) · 95 cm, -10º'},
- {lat:36.5113955,lon:-4.8841898,score:95,label:'Calle Portada (murallas) · accesible'},
- {lat:36.5109739,lon:-4.8853793,score:95,label:'Calle Chorrón → Pl. Puente de Ronda · sin impedimento'},
- {lat:36.5106000,lon:-4.8852000,score:78,label:'Calle de la Cruz · -5º, ancho suficiente'},
- {lat:36.5104572,lon:-4.8853441,score:80,label:'Calle Pasaje · 1,65 m, -5º'},
- {lat:36.5102335,lon:-4.8849860,score:98,label:'Plaza de los Naranjos · accesible'},
- {lat:36.5099688,lon:-4.8850860,score:95,label:'Pl. Fernando Alcalá · paso a nivel'},
- {lat:36.5103256,lon:-4.8845060,score:92,label:'Pl. Gral. Chinchilla → Calle Carmen'},
- {lat:36.5099999,lon:-4.8839854,score:92,label:'Entorno Iglesia de la Encarnación'},
- {lat:36.5102806,lon:-4.8830227,score:88,label:'Calle Trinidad'},
- {lat:36.5102362,lon:-4.8829385,score:86,label:'Calle Salinas · -4º'},
- {lat:36.5097186,lon:-4.8831910,score:58,label:'Calle Mendoza → Pl. Altamirano · -9º'},
- {lat:36.5099044,lon:-4.8831904,score:58,label:'Calle Pelleja · +9º'},
- {lat:36.5100288,lon:-4.8834509,score:90,label:'Calle Viento · 140 cm, 2º'},
- {lat:36.5094500,lon:-4.8841500,score:84,label:'Calle Caridad'},
- {lat:36.5093456,lon:-4.8841446,score:90,label:'El Hospitalillo · rampa 7º, 115 cm'},
- {lat:36.5089955,lon:-4.8842807,score:92,label:'Calle Tetuán'},
- {lat:36.5092942,lon:-4.8850765,score:92,label:'C. Padre F. Echamendi'},
- {lat:36.5094512,lon:-4.8855113,score:70,label:'Plaza de África · -3º, semáforo sin acústico'},
- {lat:36.5087178,lon:-4.8857015,score:58,label:'Acceso a la Alameda · rampa -8º'}
+ {lat:36.512211,lon:-4.885142,score:96,label:'Acceso plaza Santo Cristo · a nivel (2 cm)'},
+ {lat:36.511543,lon:-4.885275,score:74,label:'Calle Ancha · peatonal a nivel, acera 70 cm'},
+ {lat:36.511548,lon:-4.884884,score:80,label:'Calle Montenebro · +5º'},
+ {lat:36.511126,lon:-4.884380,score:45,label:'Calle Escuelas (al castillo) · 95 cm, -10º'},
+ {lat:36.511462,lon:-4.883984,score:95,label:'Calle Portada (murallas) · accesible'},
+ {lat:36.511271,lon:-4.884800,score:95,label:'Calle Chorrón → Pl. Puente de Ronda · sin impedimento'},
+ {lat:36.510733,lon:-4.885362,score:78,label:'Calle de la Cruz · -5º, ancho suficiente'},
+ {lat:36.510323,lon:-4.885299,score:80,label:'Calle Pasaje · 1,65 m, -5º'},
+ {lat:36.510366,lon:-4.885045,score:98,label:'Plaza de los Naranjos · accesible'},
+ {lat:36.510042,lon:-4.885008,score:95,label:'Pl. Fernando Alcalá · paso a nivel'},
+ {lat:36.510250,lon:-4.884668,score:92,label:'Pl. Gral. Chinchilla → Calle Carmen'},
+ {lat:36.510080,lon:-4.884099,score:92,label:'Entorno Iglesia de la Encarnación'},
+ {lat:36.510248,lon:-4.883524,score:88,label:'Calle Trinidad'},
+ {lat:36.510335,lon:-4.883047,score:88,label:'Plaza Santo Sepulcro'},
+ {lat:36.510654,lon:-4.883275,score:86,label:'Calle Salinas · -4º'},
+ {lat:36.510086,lon:-4.882808,score:86,label:'Calle Hospital de Bazán (Museo)'},
+ {lat:36.509850,lon:-4.882989,score:58,label:'Calle Mendoza → Pl. Altamirano · -9º'},
+ {lat:36.509764,lon:-4.883173,score:58,label:'Plaza Altamirano · acceso 5º'},
+ {lat:36.509893,lon:-4.883217,score:58,label:'Calle Pelleja · +9º'},
+ {lat:36.509982,lon:-4.883652,score:90,label:'Calle Viento · 140 cm, 2º'},
+ {lat:36.509712,lon:-4.884298,score:84,label:'Calle Caridad'},
+ {lat:36.509470,lon:-4.884240,score:90,label:'El Hospitalillo · rampa 7º, 115 cm'},
+ {lat:36.509008,lon:-4.884123,score:92,label:'Calle Tetuán'},
+ {lat:36.509293,lon:-4.885063,score:92,label:'C. Padre F. Echamendi'},
+ {lat:36.509430,lon:-4.885572,score:70,label:'Plaza de África · -3º, semáforo sin acústico'},
+ {lat:36.509409,lon:-4.885579,score:58,label:'Acceso a la Alameda · rampa -8º'}
 ];
 
 /* ============================================================
