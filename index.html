@@ -314,8 +314,22 @@ for(let i=0;i<ROUTE.length-1;i++){
 /* Flechas de sentido de la marcha (ayudan en las intersecciones) */
 if(L.polylineDecorator){
   L.polylineDecorator(ROUTE,{patterns:[{offset:22,repeat:70,symbol:L.Symbol.arrowHead({
-    pixelSize:11,polygon:true,pathOptions:{stroke:true,color:'#fff',weight:1.5,fillColor:'#1d2433',fillOpacity:1}})}]}).addTo(map);
+    pixelSize:12,polygon:true,pathOptions:{stroke:true,color:'#fff',weight:1.5,fillColor:'#1d2433',fillOpacity:1}})}]}).addTo(map);
 }
+
+/* Flechas de GIRO en cruces complejos: palo doblado (entrada→giro→salida) */
+function interp(from,to,dist){const d=map.distance(from,to)||1;const t=Math.min(1,dist/d);return [from[0]+(to[0]-from[0])*t, from[1]+(to[1]-from[1])*t];}
+function turnArrow(inP,corner,outP,label){
+  const line=[interp(corner,inP,15),corner,interp(corner,outP,17)];
+  L.polyline(line,{color:'#fff',weight:10,opacity:.95,lineCap:'round',lineJoin:'round'}).addTo(map);
+  const pl=L.polyline(line,{color:'#12263a',weight:5.5,opacity:1,lineCap:'round',lineJoin:'round'}).addTo(map);
+  if(L.polylineDecorator)L.polylineDecorator(line,{patterns:[{offset:'100%',repeat:0,symbol:L.Symbol.arrowHead({
+    pixelSize:17,polygon:true,pathOptions:{stroke:true,color:'#fff',weight:1.5,fillColor:'#12263a',fillOpacity:1}})}]}).addTo(map);
+  pl.bindTooltip(label,{sticky:true,className:'seg-tip'});
+}
+/* Cruce Salinas / Viento / Hospital Bazán / Pelleja (se pasa 2 veces) */
+turnArrow([36.510344,-4.883159],[36.510084,-4.883191],[36.510086,-4.882808],'① Gira al Museo del Grabado (C. Hospital Bazán)');
+turnArrow([36.509744,-4.883212],[36.510084,-4.883191],[36.509982,-4.883652],'② Sal por Calle Viento');
 
 /* Marcadores de puntos de interés */
 const markers={};
@@ -340,6 +354,7 @@ lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
    <div class="ends"><span>Accesible</span><span>Muy difícil</span></div>
    <div style="font-size:10.5px;color:#6b7280;margin:0 0 2px">pendiente · anchura · barreras</div>
    <div class="row"><span class="pp" style="background:#1d2433">➤</span>Sentido de la marcha</div>
+   <div class="row"><span class="pp" style="background:#12263a">➤</span>Flecha grande = giro en cruce</div>
    <b>Estado del punto</b>
    <div class="row"><span class="pp" style="background:#1f9d55">♿</span>Accesible</div>
    <div class="row"><span class="pp" style="background:#d23b3b">✕</span>No accesible</div>
