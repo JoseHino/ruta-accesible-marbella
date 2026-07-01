@@ -167,6 +167,7 @@ const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275]
    ============================================================ */
 const CAT={
   plaza:{ic:'🌳',label:'Plaza · sitio singular'},
+  castillo:{ic:'🏰',label:'Castillo · fortificación'},
   historico:{ic:'🏛️',label:'Edificio histórico'},
   religioso:{ic:'⛪',label:'Templo · ermita · capilla'},
   museo:{ic:'🖼️',label:'Museo'},
@@ -182,6 +183,10 @@ const POIS=[
  {n:1,cat:'religioso',acc:false,lat:36.512515,lon:-4.885116,name:'Ermita del Santo Cristo de la Vera Cruz',tag:'INICIO',
   specs:{Edificio:'No accesible',Plaza:'Accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['Plaza accesible','good']],
   note:'Punto de partida. La ermita tiene un escalón de acceso que la hace NO accesible en silla de ruedas; la plaza sí es accesible (paso a nivel, 2 cm).'},
+
+ {n:16,cat:'castillo',acc:true,lat:36.511062,lon:-4.883839,name:'Castillo de Marbella · Alcazaba y Muralla',
+  specs:{Origen:'Época árabe (s. IX-X)',Entorno:'Accesible (C. Portada)','Acceso C. Escuelas':'95 cm · -10º'},chips:[['Alcazaba','cat'],['Muralla','cat'],['Entorno accesible','good'],['Acceso difícil por C. Escuelas','warn']],
+  note:'Fortaleza de origen árabe: la alcazaba y los lienzos de muralla que coronan el casco antiguo. Los alrededores y las murallas son accesibles por Calle Portada; el acceso por Calle Escuelas es difícil (95 cm de ancho y -10º de pendiente).'},
 
  {n:2,cat:'plaza',acc:true,lat:36.510833,lon:-4.885367,name:'Plaza Puente de Ronda',
   specs:{Acceso:'Sin impedimento'},chips:[['Accesible','good']],
@@ -332,9 +337,10 @@ lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
    <div class="row"><span class="pp" style="background:#7c3aed">★</span>Bucle de inducción magnética</div>
    <b>Categorías</b>
    <div class="cats">
-     <div>🌳 Plaza</div><div>🏛️ Edif. histórico</div>
-     <div>⛪ Templo</div><div>🖼️ Museo</div>
-     <div>🗿 Monumento</div><div>ℹ️ Turismo</div>
+     <div>🌳 Plaza</div><div>🏰 Castillo</div>
+     <div>🏛️ Edif. histórico</div><div>⛪ Templo</div>
+     <div>🖼️ Museo</div><div>🗿 Monumento</div>
+     <div>ℹ️ Turismo</div>
    </div>`;
   return d;};
 lg.addTo(map);
