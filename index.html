@@ -20,7 +20,7 @@
   #app{display:flex;height:100vh;overflow:hidden}
 
   /* Sidebar */
-  #side{width:390px;max-width:42vw;background:var(--card);display:flex;flex-direction:column;border-right:1px solid var(--line);z-index:500}
+  #side{width:395px;max-width:42vw;background:var(--card);display:flex;flex-direction:column;border-right:1px solid var(--line);z-index:500}
   header.top{padding:16px 18px 12px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,var(--brand),var(--brand-d));color:#fff}
   header.top h1{margin:0;font-size:18px;letter-spacing:.2px}
   header.top p{margin:4px 0 0;font-size:12.5px;opacity:.92;line-height:1.45}
@@ -53,6 +53,7 @@
   .chip.bad{background:var(--no-bg);color:#a32525}
   .chip.good{background:var(--ok-bg);color:#137a40}
   .chip.star{background:#efe7fb;color:#6b3fc0}
+  .chip.cat{background:#e7eef3;color:#0b6e8c}
 
   .foot{padding:10px 14px;border-top:1px solid var(--line);background:#fafbfc}
   .foot a{display:block;text-align:center;text-decoration:none;background:#fff;border:1px solid var(--line);color:var(--brand);font-weight:650;font-size:12.5px;padding:9px;border-radius:10px}
@@ -61,7 +62,7 @@
   /* Map */
   #map{flex:1;height:100%}
 
-  /* Pines culturales (teardrop con emoji + badge de accesibilidad) */
+  /* Pines (teardrop con icono de categoría + badge de accesibilidad) */
   .poi-wrap{position:relative;width:36px;height:36px}
   .poi{width:36px;height:36px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2.5px solid #fff;box-shadow:0 3px 9px rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center}
   .poi.ok{background:var(--ok)} .poi.no{background:var(--no)}
@@ -71,12 +72,14 @@
   .poi-badge.no{background:var(--no);color:#fff}
   .poi-star{position:absolute;bottom:-3px;left:-6px;width:18px;height:18px;border-radius:50%;background:#7c3aed;border:2px solid #fff;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.35)}
 
-  .legend{background:#fff;padding:10px 13px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;line-height:1.7;max-width:230px}
-  .legend b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:2px 0 4px}
+  .legend{background:#fff;padding:10px 13px;border-radius:10px;box-shadow:var(--shadow);font-size:12px;line-height:1.65;max-width:245px}
+  .legend b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin:8px 0 4px}
+  .legend b:first-child{margin-top:0}
   .legend .grad{height:11px;border-radius:6px;margin:3px 0 2px;background:linear-gradient(90deg,#1f9d55,#7cb342,#e0a800,#e8590c,#d23b3b)}
-  .legend .ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:7px}
+  .legend .ends{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:2px}
   .legend .row{display:flex;align-items:center;gap:7px}
   .legend .pp{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;flex:none;font-family:"Segoe UI Symbol",system-ui}
+  .legend .cats{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}
 
   /* Detail panel */
   #detail{position:absolute;top:0;right:0;height:100%;width:400px;max-width:92vw;background:#fff;box-shadow:-8px 0 30px rgba(20,30,50,.18);transform:translateX(105%);transition:transform .28s cubic-bezier(.4,.1,.2,1);z-index:1000;display:flex;flex-direction:column}
@@ -85,7 +88,7 @@
   .dhead.ok{background:linear-gradient(135deg,#26ab60,#178048)}
   .dhead.no{background:linear-gradient(135deg,#e04b4b,#b32d2d)}
   .dhead .close{position:absolute;top:14px;right:14px;width:34px;height:34px;border:none;border-radius:50%;background:rgba(255,255,255,.22);color:#fff;font-size:20px;cursor:pointer}
-  .dhead .step{font-size:12px;opacity:.9;font-weight:600;letter-spacing:.4px}
+  .dhead .step{font-size:12px;opacity:.92;font-weight:600;letter-spacing:.3px}
   .dhead h2{margin:6px 0 8px;font-size:21px;line-height:1.2}
   .dhead .acc{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.92);color:#222;font-weight:700;font-size:12.5px;padding:4px 11px;border-radius:20px}
   .dbody{padding:18px 22px 30px;overflow-y:auto}
@@ -115,11 +118,11 @@
   <aside id="side">
     <header class="top">
       <h1>♿ Ruta Accesible · Casco Antiguo</h1>
-      <p>Marbella · Itinerario cultural por el casco histórico. Las marcas señalan los <b>puntos de interés cultural</b>; el color de la ruta indica la <b>accesibilidad de cada tramo</b> (pendiente, anchura y barreras).</p>
+      <p>Marbella · Itinerario cultural por el casco histórico. Las marcas señalan los <b>puntos de interés</b> (plazas, edificios históricos, templos, monumentos); el color de la ruta indica la <b>accesibilidad de cada tramo</b> (pendiente, anchura y barreras).</p>
       <div class="meta-row">
-        <div><span class="b" id="cOk">·</span>Monum. accesibles</div>
+        <div><span class="b" id="cOk">·</span>Accesibles</div>
         <div><span class="b" id="cNo">·</span>No accesibles</div>
-        <div><span class="b">1,9 km</span>≈24 min a pie</div>
+        <div><span class="b">1,7 km</span>≈22 min a pie</div>
       </div>
     </header>
     <div class="filters">
@@ -129,7 +132,7 @@
     </div>
     <div id="list"></div>
     <div class="foot">
-      <a href="https://www.google.com/maps/dir/?api=1&travelmode=walking&origin=36.512211,-4.885142&destination=36.509008,-4.884123&waypoints=36.510775,-4.883621%7C36.510366,-4.885045%7C36.510042,-4.885008%7C36.510080,-4.884099%7C36.510086,-4.882808%7C36.509470,-4.884240" target="_blank" rel="noopener">🧭 Abrir la ruta a pie en Google Maps</a>
+      <a id="gm" href="#" target="_blank" rel="noopener">🧭 Abrir la ruta a pie en Google Maps</a>
     </div>
   </aside>
   <div id="map"></div>
@@ -154,103 +157,130 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 /* ============================================================
-   Geometría real de la ruta a pie (sigue el callejero del casco)
+   Geometría real de la ruta (waypoints del usuario en Google Maps,
+   enrutados por el callejero real de OpenStreetMap)
    ============================================================ */
-const ROUTE = [[36.512211,-4.885142],[36.512299,-4.885139],[36.512314,-4.885174],[36.512338,-4.885175],[36.512337,-4.885191],[36.512262,-4.885184],[36.512181,-4.885186],[36.512059,-4.885204],[36.511790,-4.885235],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511265,-4.884576],[36.511243,-4.884565],[36.511195,-4.884539],[36.511184,-4.884525],[36.511140,-4.884395],[36.511126,-4.884380],[36.510931,-4.884244],[36.510727,-4.884119],[36.510480,-4.884012],[36.510483,-4.883992],[36.510531,-4.883821],[36.510585,-4.883619],[36.510644,-4.883640],[36.510707,-4.883663],[36.510775,-4.883621],[36.510707,-4.883663],[36.510644,-4.883640],[36.510585,-4.883619],[36.510531,-4.883821],[36.510483,-4.883992],[36.510480,-4.884012],[36.510727,-4.884119],[36.510931,-4.884244],[36.511126,-4.884380],[36.511140,-4.884395],[36.511184,-4.884525],[36.511195,-4.884539],[36.511243,-4.884565],[36.511265,-4.884576],[36.511379,-4.884242],[36.511462,-4.883984],[36.511379,-4.884242],[36.511265,-4.884576],[36.511324,-4.884609],[36.511271,-4.884800],[36.511149,-4.885224],[36.511122,-4.885333],[36.511117,-4.885222],[36.511041,-4.885189],[36.511037,-4.885187],[36.511032,-4.885188],[36.511036,-4.885224],[36.511015,-4.885284],[36.510997,-4.885338],[36.510960,-4.885319],[36.510925,-4.885300],[36.510911,-4.885281],[36.510875,-4.885330],[36.510825,-4.885398],[36.510733,-4.885362],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510323,-4.885299],[36.510327,-4.885280],[36.510331,-4.885261],[36.510347,-4.885177],[36.510362,-4.885096],[36.510355,-4.885094],[36.510366,-4.885045],[36.510355,-4.885094],[36.510362,-4.885096],[36.510347,-4.885177],[36.510331,-4.885261],[36.510327,-4.885280],[36.510323,-4.885299],[36.510314,-4.885311],[36.510273,-4.885255],[36.510260,-4.885258],[36.510179,-4.885237],[36.510112,-4.885219],[36.510098,-4.885205],[36.510084,-4.885183],[36.510078,-4.885153],[36.510079,-4.885126],[36.510095,-4.885037],[36.510066,-4.885029],[36.510042,-4.885008],[36.510066,-4.885029],[36.510080,-4.884955],[36.510095,-4.884880],[36.510116,-4.884772],[36.510121,-4.884744],[36.510135,-4.884678],[36.510144,-4.884629],[36.510173,-4.884640],[36.510250,-4.884668],[36.510272,-4.884678],[36.510380,-4.884334],[36.510397,-4.884270],[36.510255,-4.884205],[36.510056,-4.884175],[36.510061,-4.884154],[36.510080,-4.884099],[36.510113,-4.884114],[36.510129,-4.884073],[36.510204,-4.883798],[36.510150,-4.883775],[36.510190,-4.883610],[36.510199,-4.883591],[36.510248,-4.883524],[36.510259,-4.883497],[36.510344,-4.883159],[36.510347,-4.883146],[36.510307,-4.883141],[36.510306,-4.883054],[36.510307,-4.883044],[36.510335,-4.883047],[36.510307,-4.883044],[36.510306,-4.883054],[36.510307,-4.883141],[36.510347,-4.883146],[36.510344,-4.883159],[36.510654,-4.883275],[36.510344,-4.883159],[36.510084,-4.883191],[36.510086,-4.882808],[36.509989,-4.882778],[36.509983,-4.882797],[36.509850,-4.882989],[36.509806,-4.883032],[36.509777,-4.883080],[36.509772,-4.883089],[36.509780,-4.883109],[36.509764,-4.883173],[36.509771,-4.883200],[36.509765,-4.883213],[36.509893,-4.883217],[36.509901,-4.883190],[36.510084,-4.883191],[36.510083,-4.883217],[36.509982,-4.883652],[36.509976,-4.883711],[36.509987,-4.883714],[36.510140,-4.883770],[36.510150,-4.883775],[36.510204,-4.883798],[36.510129,-4.884073],[36.510113,-4.884114],[36.510080,-4.884099],[36.510061,-4.884154],[36.510056,-4.884175],[36.510038,-4.884171],[36.509826,-4.884233],[36.509822,-4.884277],[36.509817,-4.884286],[36.509760,-4.884292],[36.509712,-4.884298],[36.509676,-4.884298],[36.509641,-4.884298],[36.509626,-4.884302],[36.509444,-4.884242],[36.509417,-4.884237],[36.509099,-4.884148],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509293,-4.885063],[36.509298,-4.885134],[36.509375,-4.885400],[36.509381,-4.885422],[36.509430,-4.885572],[36.509409,-4.885579]];
+const ROUTE = [[36.512322,-4.885174],[36.512338,-4.885175],[36.512262,-4.885184],[36.512181,-4.885186],[36.512059,-4.885204],[36.511790,-4.885235],[36.511543,-4.885275],[36.511561,-4.885238],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511314,-4.884807],[36.511271,-4.884800],[36.511324,-4.884609],[36.511336,-4.884632],[36.511324,-4.884609],[36.511265,-4.884576],[36.511243,-4.884565],[36.511247,-4.884518],[36.511243,-4.884565],[36.511036,-4.885173],[36.511041,-4.885189],[36.511117,-4.885222],[36.511131,-4.885250],[36.511117,-4.885222],[36.511122,-4.885333],[36.511009,-4.885356],[36.510988,-4.885374],[36.510960,-4.885358],[36.510988,-4.885374],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510833,-4.885367],[36.510827,-4.885387],[36.510733,-4.885362],[36.510605,-4.885323],[36.510617,-4.885301],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510323,-4.885299],[36.510314,-4.885311],[36.510273,-4.885255],[36.510260,-4.885258],[36.510179,-4.885237],[36.510152,-4.885219],[36.510179,-4.885237],[36.510267,-4.884730],[36.510238,-4.884718],[36.510215,-4.884714],[36.510191,-4.884721],[36.510215,-4.884714],[36.510238,-4.884718],[36.510257,-4.884726],[36.510340,-4.884760],[36.510356,-4.884774],[36.510366,-4.884795],[36.510426,-4.884761],[36.510399,-4.884893],[36.510405,-4.884877],[36.510399,-4.884893],[36.510425,-4.884774],[36.510403,-4.884737],[36.510300,-4.884689],[36.510272,-4.884678],[36.510380,-4.884334],[36.510382,-4.884314],[36.510380,-4.884334],[36.510397,-4.884270],[36.510255,-4.884205],[36.510265,-4.884254],[36.510255,-4.884205],[36.510056,-4.884175],[36.510038,-4.884171],[36.510028,-4.884151],[36.510126,-4.883855],[36.510150,-4.883775],[36.510129,-4.883774],[36.510150,-4.883775],[36.510190,-4.883610],[36.510199,-4.883591],[36.510248,-4.883524],[36.510259,-4.883497],[36.510245,-4.883491],[36.510259,-4.883497],[36.510344,-4.883159],[36.510307,-4.883141],[36.510306,-4.883054],[36.510335,-4.883047],[36.510367,-4.883071],[36.510335,-4.883047],[36.510307,-4.883044],[36.510307,-4.883141],[36.510206,-4.883160],[36.510307,-4.883141],[36.510347,-4.883146],[36.510084,-4.883191],[36.510087,-4.883150],[36.510084,-4.883191],[36.510086,-4.882808],[36.509989,-4.882778],[36.509983,-4.882797],[36.509850,-4.882989],[36.509893,-4.882922],[36.509850,-4.882989],[36.509806,-4.883032],[36.509777,-4.883080],[36.509764,-4.883104],[36.509744,-4.883212],[36.509713,-4.883183],[36.509744,-4.883212],[36.509765,-4.883213],[36.509893,-4.883217],[36.509901,-4.883190],[36.510084,-4.883191],[36.510060,-4.883152],[36.510084,-4.883191],[36.510083,-4.883217],[36.509982,-4.883652],[36.510007,-4.883558],[36.509982,-4.883652],[36.509976,-4.883711],[36.509988,-4.883798],[36.509905,-4.883977],[36.509867,-4.884061],[36.509895,-4.884115],[36.509867,-4.884061],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509444,-4.884242],[36.509417,-4.884237],[36.509099,-4.884148],[36.509239,-4.884169],[36.509107,-4.884145],[36.509008,-4.884123],[36.509030,-4.884097],[36.509008,-4.884123],[36.508959,-4.884730],[36.508987,-4.884493],[36.508959,-4.884730],[36.508975,-4.884760],[36.508959,-4.884730],[36.509315,-4.884754],[36.509293,-4.885063],[36.509298,-4.885134],[36.509375,-4.885400],[36.509361,-4.885397],[36.509397,-4.885534],[36.509434,-4.885500],[36.509397,-4.885534],[36.509409,-4.885579],[36.509140,-4.885670],[36.509159,-4.885640],[36.509140,-4.885670],[36.509090,-4.885699],[36.509035,-4.885731],[36.508989,-4.885750],[36.509035,-4.885731],[36.509045,-4.885763],[36.509050,-4.885782],[36.509170,-4.886181],[36.509088,-4.886175]];
 
 /* ============================================================
-   PUNTOS DE INTERÉS CULTURAL  → son los ÚNICOS marcadores del mapa
-   acc:true = accesible · acc:false = NO accesible (se señala en rojo)
+   CATEGORÍAS de los puntos de interés
    ============================================================ */
-const POIS = [
- {n:1,type:'⛪',acc:false,lat:36.512211,lon:-4.885142,short:'Iglesia del Santo Cristo',title:'Iglesia / Ermita del Santo Cristo',tag:'INICIO',
+const CAT={
+  plaza:{ic:'🌳',label:'Plaza · sitio singular'},
+  historico:{ic:'🏛️',label:'Edificio histórico'},
+  religioso:{ic:'⛪',label:'Templo · ermita · capilla'},
+  museo:{ic:'🖼️',label:'Museo'},
+  monumento:{ic:'🗿',label:'Monumento · escultura'},
+  servicio:{ic:'ℹ️',label:'Servicio turístico'}
+};
+
+/* ============================================================
+   PUNTOS DE INTERÉS (marcadores) · en orden de visita
+   acc:true = accesible · acc:false = NO accesible (pin rojo + ✕)
+   ============================================================ */
+const POIS=[
+ {n:1,cat:'religioso',acc:false,lat:36.512515,lon:-4.885116,name:'Ermita del Santo Cristo de la Vera Cruz',tag:'INICIO',
   specs:{Edificio:'No accesible',Plaza:'Accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['Plaza accesible','good']],
-  note:'Punto de inicio. La iglesia del Santo Cristo tiene un escalón de acceso que la hace NO accesible en silla de ruedas. La plaza, en cambio, sí es accesible (paso a nivel, 2 cm de desnivel).'},
+  note:'Punto de partida. La ermita tiene un escalón de acceso que la hace NO accesible en silla de ruedas; la plaza sí es accesible (paso a nivel, 2 cm).'},
 
- {n:2,type:'🏰',acc:true,lat:36.510775,lon:-4.883621,short:'Castillo y Murallas',title:'Castillo y Murallas de Marbella',
-  specs:{Entorno:'Accesible',Acceso:'C. Portada','Por C. Escuela':'-10º · 95 cm'},chips:[['Entorno accesible','good'],['Mejor por C. Portada','good']],
-  note:'Los alrededores del castillo y las murallas son accesibles por Calle Portada. Evitar el acceso por Calle Escuela, que tiene 95 cm de ancho y 10º de pendiente negativa.'},
+ {n:2,cat:'plaza',acc:true,lat:36.510833,lon:-4.885367,name:'Plaza Puente de Ronda',
+  specs:{Acceso:'Sin impedimento'},chips:[['Accesible','good']],
+  note:'Se llega desde la ermita bajando por Calle Ancha (peatonal, a nivel). Plaza accesible sin impedimentos.'},
 
- {n:3,type:'🍊',acc:true,star:true,lat:36.510366,lon:-4.885045,short:'Plaza de los Naranjos ★',title:'Plaza de los Naranjos + Oficina de Turismo',
-  specs:{Plaza:'Accesible',Oficina:'Paso a nivel',Audición:'Bucle magnético'},chips:[['Accesible','good'],['Paso a nivel','good'],['Bucle inducción','star']],
-  note:'El corazón del casco antiguo. Plaza totalmente accesible. La Oficina de Turismo tiene paso a nivel y bucles de inducción magnética (clave para personas con audífono o implante coclear).'},
+ {n:3,cat:'historico',acc:true,lat:36.510114,lon:-4.885361,name:'Casa del Corregidor',
+  specs:{Fachada:'S. XVI (gótico-mudéjar)',Entorno:'Accesible'},chips:[['Edificio histórico','cat'],['Entorno accesible','good']],
+  note:'En la Plaza de los Naranjos. Una de las fachadas históricas más notables del casco antiguo; entorno accesible a nivel.'},
 
- {n:4,type:'⛪',acc:true,lat:36.510042,lon:-4.885008,short:'Capilla de Santiago',title:'Capilla de Santiago · Pl. Fernando Alcalá',
+ {n:4,cat:'historico',acc:true,lat:36.510516,lon:-4.885085,name:'Ayuntamiento (Casa Consistorial)',
+  specs:{Época:'S. XVI',Entorno:'Accesible'},chips:[['Edificio histórico','cat'],['Accesible','good']],
+  note:'Casa Consistorial en la Plaza de los Naranjos. Edificio histórico; acceso a nivel desde la plaza.'},
+
+ {n:5,cat:'servicio',acc:true,star:true,lat:36.510230,lon:-4.885050,name:'Oficina de Turismo',
+  specs:{Acceso:'Paso a nivel',Audición:'Bucle magnético'},chips:[['Accesible','good'],['Bucle inducción','star']],
+  note:'En la Plaza de los Naranjos. Paso a nivel y bucles de inducción magnética (clave para personas con audífono o implante coclear).'},
+
+ {n:6,cat:'plaza',acc:true,lat:36.510247,lon:-4.884998,name:'Plaza de los Naranjos',
+  specs:{Plaza:'Accesible',Pavimento:'A nivel'},chips:[['Accesible','good'],['Corazón del casco','cat']],
+  note:'El corazón del casco antiguo. Plaza totalmente accesible; alrededor se sitúan el Ayuntamiento, la Casa del Corregidor, la Oficina de Turismo y la Ermita de Santiago.'},
+
+ {n:7,cat:'religioso',acc:true,lat:36.509981,lon:-4.885104,name:'Ermita / Capilla de Santiago',
   specs:{Puerta:'2,20 m',Acceso:'Paso a nivel'},chips:[['Puerta 2,20 m','good'],['Paso a nivel','good']],
-  note:'Junto a la Plaza Fernando Alcalá. Accesible: puerta de acceso de 2,20 m y entrada a nivel.'},
+  note:'Junto a la Plaza de los Naranjos (Pl. Fernando Alcalá). Accesible: puerta de 2,20 m y entrada a nivel.'},
 
- {n:5,type:'⛪',acc:true,lat:36.510080,lon:-4.884099,short:'Iglesia de la Encarnación',title:'Iglesia de la Encarnación',
+ {n:8,cat:'religioso',acc:true,lat:36.509749,lon:-4.883857,name:'Iglesia de la Encarnación',
   specs:{Edificio:'Accesible'},chips:[['Accesible','good']],
-  note:'El principal templo del casco antiguo. Es accesible.'},
+  note:'Parroquia de Nuestra Señora de la Encarnación, el principal templo del casco antiguo. Es accesible.'},
 
- {n:6,type:'⛪',acc:false,lat:36.510335,lon:-4.883047,short:'Capilla del Santo Sepulcro',title:'Capilla del Santo Sepulcro · C. Trinidad',
+ {n:9,cat:'religioso',acc:false,lat:36.510300,lon:-4.883025,name:'Capilla del Santo Sepulcro',
   specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
   note:'En Calle Trinidad. NO es accesible: hay un escalón en el acceso.'},
 
- {n:7,type:'🏛️',acc:true,lat:36.510086,lon:-4.882808,short:'Museo del Grabado',title:'Museo del Grabado Español Contemporáneo',
-  specs:{Museo:'Accesible',Llegada:'C. Salinas -4º'},chips:[['Museo accesible','good'],['-4º','good']],
-  note:'Se llega bajando por Calle Salinas (-4º) y girando a Calle Hospital Bazán. El museo es accesible.'},
+ {n:10,cat:'museo',acc:true,lat:36.510263,lon:-4.882805,name:'Museo del Grabado Español Contemporáneo',
+  specs:{Sede:'Hospital Bazán',Museo:'Accesible'},chips:[['Museo accesible','good'],['Edificio histórico','cat']],
+  note:'En el Hospital Bazán, uno de los pocos ejemplos de arquitectura civil renacentista de la ciudad. El museo es accesible.'},
 
- {n:8,type:'⛪',acc:false,lat:36.509780,lon:-4.884290,short:'Capilla de San Juan de Dios',title:'Capilla de San Juan de Dios · C. Caridad',
+ {n:11,cat:'plaza',acc:true,lat:36.509742,lon:-4.883144,name:'Plaza Altamirano',
+  specs:{Accesos:'Desniveles moderados'},chips:[['Accesible','good'],['Calles en pendiente','warn']],
+  note:'Plaza singular del casco antiguo. Es accesible, aunque las calles de acceso (Mendoza, Pelleja) tienen pendientes de hasta ±9º.'},
+
+ {n:12,cat:'religioso',acc:false,lat:36.509423,lon:-4.884145,name:'Capilla de San Juan de Dios',
   specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
   note:'En Calle Caridad. NO es accesible: tiene un escalón en el acceso.'},
 
- {n:9,type:'🏛️',acc:true,lat:36.509470,lon:-4.884240,short:'El Hospitalillo',title:'El Hospitalillo',
-  specs:{Rampa:'7º',Acceso:'115 cm',Puerta:'Abatible'},chips:[['Rampa 7º','good'],['115 cm','good'],['Puerta abatible','good']],
-  note:'Bajando por Calle Caridad. Accesible mediante rampa de 7º y 115 cm de ancho de acceso; la puerta es abatible.'},
+ {n:13,cat:'historico',acc:true,lat:36.509253,lon:-4.884078,name:'Hospital Real de la Misericordia "Hospitalillo"',
+  specs:{Rampa:'7º',Acceso:'115 cm',Puerta:'Abatible'},chips:[['Rampa 7º','good'],['115 cm','good'],['Edificio histórico','cat']],
+  note:'Antiguo hospital de fundación real. Accesible mediante rampa de 7º y 115 cm de ancho de acceso; puerta abatible.'},
 
- {n:10,type:'🗿',acc:true,lat:36.509008,lon:-4.884123,short:'Estatua "La Bella del Mar"',title:'Estatua "La Bella del Mar" · Fin',tag:'FIN',
+ {n:14,cat:'monumento',acc:true,lat:36.508987,lon:-4.884493,name:'Estatua "La Bella del Mar"',
   specs:{Monumento:'Al aire libre',Entorno:'Accesible'},chips:[['Accesible','good']],
-  note:'Final del recorrido cultural, en Calle Tetuán. Monumento al aire libre con entorno accesible. Desde aquí se desciende a la Alameda.'}
+  note:'Escultura al aire libre en Calle Tetuán, camino de la Alameda. Entorno accesible.'},
+
+ {n:15,cat:'plaza',acc:true,lat:36.509434,lon:-4.885500,name:'Plaza de África',tag:'FIN',
+  specs:{Pendiente:'-3º',Cruce:'Semáforo sin acústico',Accesos:'A nivel'},chips:[['Accesos a nivel','good'],['Semáforo sin sonido','warn']],
+  note:'Última plaza antes de bajar a la Alameda. Accesos a nivel, pero el semáforo para cruzar hacia la Alameda NO tiene señal acústica (barrera para personas con discapacidad visual). El descenso final a la Alameda es por una rampa de -8º.'}
 ];
 
 /* ============================================================
-   PUNTOS DE OBSERVACIÓN DE TRAMO (no se dibujan como marcadores)
-   Sólo sirven para COLOREAR la ruta según su accesibilidad.
-   score 0-100  (100 = totalmente llano y ancho · 0 = inaccesible)
+   ANCLAJES DE TRAMO (no se dibujan) · colorean la ruta
+   score 0-100 (100 = llano y ancho · 0 = inaccesible)
    ============================================================ */
-const SEG = [
- {lat:36.512211,lon:-4.885142,score:96,label:'Acceso plaza Santo Cristo · a nivel (2 cm)'},
- {lat:36.511543,lon:-4.885275,score:74,label:'Calle Ancha · peatonal a nivel, acera 70 cm'},
- {lat:36.511548,lon:-4.884884,score:80,label:'Calle Montenebro · +5º'},
- {lat:36.511126,lon:-4.884380,score:45,label:'Calle Escuelas (al castillo) · 95 cm, -10º'},
- {lat:36.511462,lon:-4.883984,score:95,label:'Calle Portada (murallas) · accesible'},
- {lat:36.511271,lon:-4.884800,score:95,label:'Calle Chorrón → Pl. Puente de Ronda · sin impedimento'},
- {lat:36.510733,lon:-4.885362,score:78,label:'Calle de la Cruz · -5º, ancho suficiente'},
- {lat:36.510323,lon:-4.885299,score:80,label:'Calle Pasaje · 1,65 m, -5º'},
- {lat:36.510366,lon:-4.885045,score:98,label:'Plaza de los Naranjos · accesible'},
- {lat:36.510042,lon:-4.885008,score:95,label:'Pl. Fernando Alcalá · paso a nivel'},
- {lat:36.510250,lon:-4.884668,score:92,label:'Pl. Gral. Chinchilla → Calle Carmen'},
- {lat:36.510080,lon:-4.884099,score:92,label:'Entorno Iglesia de la Encarnación'},
- {lat:36.510248,lon:-4.883524,score:88,label:'Calle Trinidad'},
- {lat:36.510335,lon:-4.883047,score:88,label:'Plaza Santo Sepulcro'},
- {lat:36.510654,lon:-4.883275,score:86,label:'Calle Salinas · -4º'},
- {lat:36.510086,lon:-4.882808,score:86,label:'Calle Hospital de Bazán (Museo)'},
+const SEG=[
+ {lat:36.512322,lon:-4.885174,score:96,label:'Salida Ermita Santo Cristo · plaza a nivel'},
+ {lat:36.511561,lon:-4.885238,score:74,label:'Calle Ancha · peatonal, acera estrecha (70 cm)'},
+ {lat:36.511336,lon:-4.884632,score:48,label:'Calle Escuelas / Montenebro (castillo) · 95 cm, -10º'},
+ {lat:36.511131,lon:-4.885250,score:88,label:'Regreso hacia Pl. Puente de Ronda'},
+ {lat:36.510833,lon:-4.885367,score:92,label:'Plaza Puente de Ronda · sin impedimento'},
+ {lat:36.510617,lon:-4.885301,score:78,label:'Calle de la Cruz · -5º'},
+ {lat:36.510323,lon:-4.885299,score:80,label:'Calle Pasaje → Pl. de los Naranjos · 1,65 m, -5º'},
+ {lat:36.510247,lon:-4.884998,score:98,label:'Plaza de los Naranjos · accesible'},
+ {lat:36.509981,lon:-4.885104,score:95,label:'Ermita de Santiago · paso a nivel'},
+ {lat:36.510305,lon:-4.884350,score:92,label:'Calle Carmen / Pl. Gral. Chinchilla'},
+ {lat:36.510150,lon:-4.883775,score:90,label:'Entorno Iglesia de la Encarnación'},
+ {lat:36.510248,lon:-4.883524,score:86,label:'Calle Trinidad → Capilla Santo Sepulcro'},
+ {lat:36.510086,lon:-4.882808,score:86,label:'Museo del Grabado (Hospital Bazán)'},
  {lat:36.509850,lon:-4.882989,score:58,label:'Calle Mendoza → Pl. Altamirano · -9º'},
- {lat:36.509764,lon:-4.883173,score:58,label:'Plaza Altamirano · acceso 5º'},
- {lat:36.509893,lon:-4.883217,score:58,label:'Calle Pelleja · +9º'},
- {lat:36.509982,lon:-4.883652,score:90,label:'Calle Viento · 140 cm, 2º'},
- {lat:36.509712,lon:-4.884298,score:84,label:'Calle Caridad'},
- {lat:36.509470,lon:-4.884240,score:90,label:'El Hospitalillo · rampa 7º, 115 cm'},
- {lat:36.509008,lon:-4.884123,score:92,label:'Calle Tetuán'},
- {lat:36.509293,lon:-4.885063,score:92,label:'C. Padre F. Echamendi'},
- {lat:36.509430,lon:-4.885572,score:70,label:'Plaza de África · -3º, semáforo sin acústico'},
- {lat:36.509409,lon:-4.885579,score:58,label:'Acceso a la Alameda · rampa -8º'}
+ {lat:36.509744,lon:-4.883212,score:58,label:'Plaza Altamirano · accesos en pendiente'},
+ {lat:36.510007,lon:-4.883558,score:82,label:'Regreso hacia Calle Caridad'},
+ {lat:36.509444,lon:-4.884242,score:78,label:'Calle Caridad (Capilla San Juan de Dios)'},
+ {lat:36.509253,lon:-4.884078,score:90,label:'El Hospitalillo · rampa 7º, 115 cm'},
+ {lat:36.508987,lon:-4.884493,score:92,label:'Calle Tetuán → Estatua La Bella del Mar'},
+ {lat:36.509315,lon:-4.884754,score:88,label:'Subida hacia Plaza de África'},
+ {lat:36.509434,lon:-4.885500,score:70,label:'Plaza de África · -3º, semáforo sin acústico'},
+ {lat:36.509088,lon:-4.886175,score:58,label:'Acceso a la Alameda · rampa -8º'}
 ];
 
 /* ============================================================
    Mapa base
    ============================================================ */
-const map=L.map('map',{zoomControl:true}).setView([36.5102,-4.8843],16);
+const map=L.map('map',{zoomControl:true}).setView([36.5103,-4.8845],16);
 L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',{maxZoom:20,attribution:'&copy; OpenStreetMap, &copy; CARTO'}).addTo(map);
 
-/* ---- Color de accesibilidad: verde → rojo según score ---- */
 function scoreColor(s){
-  if(s>=85) return '#1f9d55'; // verde  · accesible / llano
-  if(s>=72) return '#7cb342'; // lima   · dificultad leve
-  if(s>=58) return '#e0a800'; // ámbar  · dificultad moderada
-  if(s>=45) return '#e8590c'; // naranja· difícil
-  return '#d23b3b';           // rojo   · muy difícil
+  if(s>=85) return '#1f9d55';
+  if(s>=72) return '#7cb342';
+  if(s>=58) return '#e0a800';
+  if(s>=45) return '#e8590c';
+  return '#d23b3b';
 }
 function scoreLabel(s){
   if(s>=85) return 'Accesible';
@@ -265,48 +295,59 @@ function nearestSeg(lat,lon){
   return best;
 }
 
-/* ---- Ruta: funda blanca + tramos coloreados por accesibilidad ---- */
+/* Ruta: funda blanca + tramos coloreados por accesibilidad */
 L.polyline(ROUTE,{color:'#fff',weight:9,opacity:.9,lineCap:'round',lineJoin:'round'}).addTo(map);
 for(let i=0;i<ROUTE.length-1;i++){
   const a=ROUTE[i],b=ROUTE[i+1];
-  const mlat=(a[0]+b[0])/2,mlon=(a[1]+b[1])/2;
-  const seg=nearestSeg(mlat,mlon);
+  const seg=nearestSeg((a[0]+b[0])/2,(a[1]+b[1])/2);
   L.polyline([a,b],{color:scoreColor(seg.score),weight:5.5,opacity:.98,lineCap:'round',lineJoin:'round'})
-    .addTo(map)
-    .bindTooltip(`${seg.label} · <b>${scoreLabel(seg.score)}</b>`,{sticky:true,className:'seg-tip'});
+    .addTo(map).bindTooltip(`${seg.label} · <b>${scoreLabel(seg.score)}</b>`,{sticky:true,className:'seg-tip'});
 }
 
-/* ---- Marcadores: SOLO puntos culturales ---- */
+/* Marcadores de puntos de interés */
 const markers={};
 POIS.forEach(p=>{
   const cls=p.acc?'ok':'no';
   const badge=p.acc?'♿︎':'✕';
   const star=p.star?'<div class="poi-star">★</div>':'';
-  const html=`<div class="poi-wrap"><div class="poi ${cls}"><span class="ic">${p.type}</span></div><div class="poi-badge ${cls}">${badge}</div>${star}</div>`;
+  const html=`<div class="poi-wrap"><div class="poi ${cls}"><span class="ic">${CAT[p.cat].ic}</span></div><div class="poi-badge ${cls}">${badge}</div>${star}</div>`;
   const icon=L.divIcon({className:'',html,iconSize:[36,36],iconAnchor:[18,36],popupAnchor:[0,-34]});
   const m=L.marker([p.lat,p.lon],{icon}).addTo(map);
-  m.bindPopup(`<b>${p.type} ${p.short}</b><br><span style="color:${p.acc?'#1f9d55':'#d23b3b'};font-weight:700">${p.acc?'♿ Accesible':'🚫 No accesible'}</span>`);
+  m.bindPopup(`<b>${CAT[p.cat].ic} ${p.name}</b><br><span style="color:#6b7280">${CAT[p.cat].label}</span><br><span style="color:${p.acc?'#1f9d55':'#d23b3b'};font-weight:700">${p.acc?'♿ Accesible':'🚫 No accesible'}</span>`);
   m.on('click',()=>openDetail(p.n));
   markers[p.n]=m;
 });
 map.fitBounds(L.polyline(ROUTE).getBounds().pad(0.12));
 
-/* ---- Leyenda ---- */
+/* Leyenda */
 const lg=L.control({position:'bottomright'});
 lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
   `<b>Accesibilidad del tramo</b>
    <div class="grad"></div>
    <div class="ends"><span>Accesible</span><span>Muy difícil</span></div>
-   <div style="font-size:10.5px;color:#6b7280;margin:-2px 0 8px">pendiente · anchura · barreras</div>
-   <b>Puntos culturales</b>
-   <div class="row"><span class="pp" style="background:#1f9d55">♿</span>Monumento accesible</div>
-   <div class="row"><span class="pp" style="background:#d23b3b">✕</span>Monumento NO accesible</div>
-   <div class="row"><span class="pp" style="background:#7c3aed">★</span>Bucle de inducción magnética</div>`;
+   <div style="font-size:10.5px;color:#6b7280;margin:0 0 2px">pendiente · anchura · barreras</div>
+   <b>Estado del punto</b>
+   <div class="row"><span class="pp" style="background:#1f9d55">♿</span>Accesible</div>
+   <div class="row"><span class="pp" style="background:#d23b3b">✕</span>No accesible</div>
+   <div class="row"><span class="pp" style="background:#7c3aed">★</span>Bucle de inducción magnética</div>
+   <b>Categorías</b>
+   <div class="cats">
+     <div>🌳 Plaza</div><div>🏛️ Edif. histórico</div>
+     <div>⛪ Templo</div><div>🖼️ Museo</div>
+     <div>🗿 Monumento</div><div>ℹ️ Turismo</div>
+   </div>`;
   return d;};
 lg.addTo(map);
 
+/* Enlace Google Maps a pie */
+document.getElementById('gm').href=
+ 'https://www.google.com/maps/dir/?api=1&travelmode=walking'+
+ '&origin=36.512515,-4.885116&destination=36.509088,-4.886175'+
+ '&waypoints=36.510833,-4.885367%7C36.510247,-4.884998%7C36.509749,-4.883857'+
+ '%7C36.510300,-4.883025%7C36.510263,-4.882805%7C36.509253,-4.884078%7C36.508987,-4.884493';
+
 /* ============================================================
-   Listado lateral (puntos culturales)
+   Listado lateral
    ============================================================ */
 const listEl=document.getElementById('list');
 function renderList(filter='all'){
@@ -314,10 +355,10 @@ function renderList(filter='all'){
   POIS.filter(p=>filter==='all'||(filter==='ok'&&p.acc)||(filter==='no'&&!p.acc)).forEach(p=>{
     const cls=p.acc?'ok':'no';
     const badge=p.acc?'♿︎':'✕';
-    const chips=p.chips.map(c=>`<span class="chip ${c[1]||''}">${c[0]}</span>`).join('');
+    const chips=[`<span class="chip cat">${CAT[p.cat].ic} ${CAT[p.cat].label}</span>`].concat(p.chips.map(c=>`<span class="chip ${c[1]||''}">${c[0]}</span>`)).join('');
     const el=document.createElement('div');el.className='item';el.dataset.n=p.n;
-    el.innerHTML=`<div class="num ${cls}"><span>${p.type}</span><div class="badge ${cls}">${badge}</div></div>`+
-                 `<div class="body"><div class="ttl">${p.title}</div><div class="chips">${chips}</div></div>`;
+    el.innerHTML=`<div class="num ${cls}"><span>${CAT[p.cat].ic}</span><div class="badge ${cls}">${badge}</div></div>`+
+                 `<div class="body"><div class="ttl">${p.name}</div><div class="chips">${chips}</div></div>`;
     el.onclick=()=>{openDetail(p.n);map.flyTo([p.lat,p.lon],18,{duration:.6});markers[p.n].openPopup();};
     listEl.appendChild(el);
   });
@@ -333,10 +374,10 @@ let current=null;
 function openDetail(n){
   const p=POIS.find(x=>x.n===n);if(!p)return;current=n;
   const cls=p.acc?'ok':'no';
-  const h=document.getElementById('dHead');h.className='dhead '+cls;
+  document.getElementById('dHead').className='dhead '+cls;
   const idx=POIS.findIndex(x=>x.n===n);
-  document.getElementById('dStep').textContent=(p.tag?p.tag+' · ':'')+`PUNTO ${idx+1} DE ${POIS.length}`;
-  document.getElementById('dTitle').textContent=p.type+' '+p.title;
+  document.getElementById('dStep').textContent=(p.tag?p.tag+' · ':'')+`${CAT[p.cat].ic} ${CAT[p.cat].label.toUpperCase()} · ${idx+1}/${POIS.length}`;
+  document.getElementById('dTitle').textContent=p.name;
   document.getElementById('dAcc').innerHTML=p.acc?'♿ Accesible':'🚫 No accesible';
   document.getElementById('dSpecs').innerHTML=Object.entries(p.specs).map(([k,v])=>`<div class="spec"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
   document.getElementById('dNote').textContent=p.note;
@@ -345,15 +386,12 @@ function openDetail(n){
   document.getElementById('detail').classList.add('open');
   document.querySelectorAll('.item').forEach(i=>i.classList.toggle('active',+i.dataset.n===n));
 }
-function nav(d){const idx=POIS.findIndex(x=>x.n===current);const t=POIS[idx+d];if(t){openDetail(t.n);map.flyTo([t.lat,t.lon],18,{duration:.5});markers[t.n].openPopup();}}
+function nav(delta){const idx=POIS.findIndex(x=>x.n===current);const t=POIS[idx+delta];if(t){openDetail(t.n);map.flyTo([t.lat,t.lon],18,{duration:.5});markers[t.n].openPopup();}}
 function closeDetail(){document.getElementById('detail').classList.remove('open');document.querySelectorAll('.item').forEach(i=>i.classList.remove('active'));current=null;}
 
-/* Listeners de los botones del panel (no usamos onclick inline: algunas
-   extensiones del navegador los eliminan y dejaban la X sin funcionar) */
 document.getElementById('dClose').addEventListener('click',e=>{e.preventDefault();e.stopPropagation();closeDetail();});
 document.getElementById('dPrev').addEventListener('click',e=>{e.preventDefault();nav(-1);});
 document.getElementById('dNext').addEventListener('click',e=>{e.preventDefault();nav(1);});
-
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail();if(current){if(e.key==='ArrowRight')nav(1);if(e.key==='ArrowLeft')nav(-1);}});
 renderList();
 </script>
