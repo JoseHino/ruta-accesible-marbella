@@ -161,7 +161,7 @@
    Geometría real de la ruta (waypoints del usuario en Google Maps,
    enrutados por el callejero real de OpenStreetMap)
    ============================================================ */
-const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511324,-4.884609],[36.511122,-4.885333],[36.511009,-4.885356],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510273,-4.885255],[36.510179,-4.885237],[36.510267,-4.884730],[36.510272,-4.884678],[36.510397,-4.884270],[36.510255,-4.884205],[36.510028,-4.884165],[36.510190,-4.883610],[36.510259,-4.883497],[36.510344,-4.883159],[36.510084,-4.883191],[36.510086,-4.882808],[36.509989,-4.882778],[36.509777,-4.883080],[36.509744,-4.883212],[36.510084,-4.883191],[36.509982,-4.883652],[36.509988,-4.883798],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509298,-4.885134],[36.509409,-4.885579],[36.509140,-4.885670],[36.509035,-4.885731],[36.509170,-4.886181]];
+const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511122,-4.885333],[36.511009,-4.885356],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510273,-4.885255],[36.510179,-4.885237],[36.510267,-4.884730],[36.510272,-4.884678],[36.510397,-4.884270],[36.510255,-4.884205],[36.510028,-4.884165],[36.510190,-4.883610],[36.510259,-4.883497],[36.510344,-4.883159],[36.510120,-4.883146],[36.510086,-4.882808],[36.509989,-4.882778],[36.509777,-4.883080],[36.509744,-4.883212],[36.510048,-4.883236],[36.509982,-4.883652],[36.509988,-4.883798],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509298,-4.885134],[36.509409,-4.885579],[36.509140,-4.885670],[36.509035,-4.885731],[36.509170,-4.886181]];
 
 /* ============================================================
    CATEGORÍAS de los puntos de interés
@@ -317,20 +317,6 @@ if(L.polylineDecorator){
     pixelSize:12,polygon:true,pathOptions:{stroke:true,color:'#fff',weight:1.5,fillColor:'#1d2433',fillOpacity:1}})}]}).addTo(map);
 }
 
-/* Flechas de GIRO en cruces complejos: palo doblado (entrada→giro→salida) */
-function interp(from,to,dist){const d=map.distance(from,to)||1;const t=Math.min(1,dist/d);return [from[0]+(to[0]-from[0])*t, from[1]+(to[1]-from[1])*t];}
-function turnArrow(inP,corner,outP,label){
-  const line=[interp(corner,inP,15),corner,interp(corner,outP,17)];
-  L.polyline(line,{color:'#fff',weight:10,opacity:.95,lineCap:'round',lineJoin:'round'}).addTo(map);
-  const pl=L.polyline(line,{color:'#12263a',weight:5.5,opacity:1,lineCap:'round',lineJoin:'round'}).addTo(map);
-  if(L.polylineDecorator)L.polylineDecorator(line,{patterns:[{offset:'100%',repeat:0,symbol:L.Symbol.arrowHead({
-    pixelSize:17,polygon:true,pathOptions:{stroke:true,color:'#fff',weight:1.5,fillColor:'#12263a',fillOpacity:1}})}]}).addTo(map);
-  pl.bindTooltip(label,{sticky:true,className:'seg-tip'});
-}
-/* Cruce Salinas / Viento / Hospital Bazán / Pelleja (se pasa 2 veces) */
-turnArrow([36.510344,-4.883159],[36.510084,-4.883191],[36.510086,-4.882808],'① Gira al Museo del Grabado (C. Hospital Bazán)');
-turnArrow([36.509744,-4.883212],[36.510084,-4.883191],[36.509982,-4.883652],'② Sal por Calle Viento');
-
 /* Marcadores de puntos de interés */
 const markers={};
 POIS.forEach(p=>{
@@ -354,7 +340,6 @@ lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
    <div class="ends"><span>Accesible</span><span>Muy difícil</span></div>
    <div style="font-size:10.5px;color:#6b7280;margin:0 0 2px">pendiente · anchura · barreras</div>
    <div class="row"><span class="pp" style="background:#1d2433">➤</span>Sentido de la marcha</div>
-   <div class="row"><span class="pp" style="background:#12263a">➤</span>Flecha grande = giro en cruce</div>
    <b>Estado del punto</b>
    <div class="row"><span class="pp" style="background:#1f9d55">♿</span>Accesible</div>
    <div class="row"><span class="pp" style="background:#d23b3b">✕</span>No accesible</div>
