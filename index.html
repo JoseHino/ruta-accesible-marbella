@@ -122,7 +122,7 @@
       <div class="meta-row">
         <div><span class="b" id="cOk">·</span>Accesibles</div>
         <div><span class="b" id="cNo">·</span>No accesibles</div>
-        <div><span class="b">1,7 km</span>≈22 min a pie</div>
+        <div><span class="b">1,4 km</span>≈20 min a pie</div>
       </div>
     </header>
     <div class="filters">
@@ -161,7 +161,7 @@
    Geometría real de la ruta (waypoints del usuario en Google Maps,
    enrutados por el callejero real de OpenStreetMap)
    ============================================================ */
-const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511122,-4.885333],[36.511009,-4.885356],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510273,-4.885255],[36.510179,-4.885237],[36.510267,-4.884730],[36.510272,-4.884678],[36.510397,-4.884270],[36.510255,-4.884205],[36.510028,-4.884165],[36.510190,-4.883610],[36.510259,-4.883497],[36.510344,-4.883159],[36.510107,-4.883163],[36.510086,-4.882808],[36.509989,-4.882778],[36.509777,-4.883080],[36.509744,-4.883212],[36.510061,-4.883219],[36.509982,-4.883652],[36.509988,-4.883798],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509298,-4.885134],[36.509409,-4.885579],[36.509140,-4.885670],[36.509035,-4.885731],[36.509170,-4.886181]];
+const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511265,-4.884576],[36.511462,-4.883984],[36.511483,-4.883994],[36.511287,-4.884581],[36.511347,-4.884608],[36.511292,-4.884809],[36.511271,-4.884800],[36.511122,-4.885333],[36.511009,-4.885356],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510273,-4.885255],[36.510179,-4.885237],[36.510267,-4.884730],[36.510366,-4.884795],[36.510403,-4.884737],[36.510272,-4.884678],[36.510397,-4.884270],[36.510255,-4.884205],[36.510028,-4.884165],[36.510190,-4.883610],[36.510259,-4.883497],[36.510344,-4.883159],[36.510106,-4.883163],[36.510086,-4.882808],[36.509989,-4.882778],[36.509777,-4.883080],[36.509744,-4.883212],[36.509893,-4.883217],[36.509901,-4.883190],[36.510062,-4.883219],[36.509982,-4.883652],[36.509988,-4.883798],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509298,-4.885134],[36.509409,-4.885579],[36.509140,-4.885670],[36.509035,-4.885731],[36.509170,-4.886181],[36.509088,-4.886175],[36.508999,-4.886258]];
 
 /* ============================================================
    CATEGORÍAS de los puntos de interés
@@ -182,8 +182,8 @@ const CAT={
    ============================================================ */
 const POIS=[
  {n:1,cat:'religioso',acc:false,lat:36.512515,lon:-4.885116,name:'Ermita del Santo Cristo de la Vera Cruz',tag:'INICIO',
-  specs:{Edificio:'No accesible',Plaza:'Accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['Plaza accesible','good']],
-  note:'Punto de partida. La ermita tiene un escalón de acceso que la hace NO accesible en silla de ruedas; la plaza sí es accesible (paso a nivel, 2 cm).'},
+  specs:{Rampa:'+7º · 90 cm',Edificio:'No accesible',Barrera:'Escalón'},chips:[['Rampa +7º','warn'],['90 cm','warn'],['Escalón','bad'],['Plaza accesible','good']],
+  note:'Punto de partida. El acceso tiene una rampa de +7º y 90 cm de ancho, pero para entrar al edificio hay un escalón que lo hace NO accesible en silla de ruedas. La plaza sí es accesible (paso a nivel, 2 cm).'},
 
  {n:16,cat:'castillo',acc:true,lat:36.511321,lon:-4.884497,name:'Castillo de Marbella · Alcazaba y Muralla',
   specs:{Origen:'Época árabe (s. IX-X)',Acceso:'Calle Portada 1','C. Escuelas':'95 cm · -10º'},chips:[['Alcazaba','cat'],['Muralla','cat'],['Entorno accesible','good'],['Acceso difícil por C. Escuelas','warn']],
@@ -251,29 +251,32 @@ const POIS=[
    score 0-100 (100 = llano y ancho · 0 = inaccesible)
    ============================================================ */
 const SEG=[
- {lat:36.512322,lon:-4.885174,score:96,label:'Salida Ermita Santo Cristo · plaza a nivel'},
- {lat:36.511561,lon:-4.885238,score:74,label:'Calle Ancha · peatonal, acera estrecha (70 cm)'},
- {lat:36.511336,lon:-4.884632,score:48,label:'Calle Escuelas (subida al castillo) · 95 cm, -10º'},
- {lat:36.511321,lon:-4.884497,score:60,label:'Calle Portada 1 · acceso al castillo'},
- {lat:36.511271,lon:-4.884800,score:90,label:'Calle Chorrón → Pl. Puente de Ronda · sin impedimento'},
- {lat:36.510833,lon:-4.885367,score:92,label:'Plaza Puente de Ronda · sin impedimento'},
+ {lat:36.512280,lon:-4.885180,score:95,label:'Plaza del Santo Cristo · acceso a nivel (2 cm)'},
+ {lat:36.511800,lon:-4.885230,score:88,label:'Calle Ancha · peatonal, accesible por la calzada (acera 70 cm por macetas)'},
+ {lat:36.511548,lon:-4.884884,score:78,label:'Calle Montenebro · +5º'},
+ {lat:36.511420,lon:-4.884200,score:84,label:'Calle Portada · acceso y vistas del castillo'},
+ {lat:36.511300,lon:-4.884720,score:92,label:'Calle Chorrón · accesible'},
+ {lat:36.510980,lon:-4.885360,score:95,label:'Plaza Puente de Ronda · sin impedimento'},
  {lat:36.510617,lon:-4.885301,score:78,label:'Calle de la Cruz · -5º'},
- {lat:36.510323,lon:-4.885299,score:80,label:'Calle Pasaje → Pl. de los Naranjos · 1,65 m, -5º'},
+ {lat:36.510323,lon:-4.885299,score:80,label:'Calle Pasaje · -5º, 1,65 m'},
  {lat:36.510247,lon:-4.884998,score:98,label:'Plaza de los Naranjos · accesible'},
- {lat:36.509981,lon:-4.885104,score:95,label:'Ermita de Santiago · paso a nivel'},
- {lat:36.510305,lon:-4.884350,score:92,label:'Calle Carmen / Pl. Gral. Chinchilla'},
- {lat:36.510150,lon:-4.883775,score:90,label:'Entorno Iglesia de la Encarnación'},
- {lat:36.510248,lon:-4.883524,score:86,label:'Calle Trinidad → Capilla Santo Sepulcro'},
- {lat:36.510086,lon:-4.882808,score:86,label:'Museo del Grabado (Hospital Bazán)'},
- {lat:36.509850,lon:-4.882989,score:58,label:'Calle Mendoza → Pl. Altamirano · -9º'},
- {lat:36.509744,lon:-4.883212,score:58,label:'Plaza Altamirano · accesos en pendiente'},
- {lat:36.510007,lon:-4.883558,score:82,label:'Regreso hacia Calle Caridad'},
- {lat:36.509444,lon:-4.884242,score:78,label:'Calle Caridad (Capilla San Juan de Dios)'},
- {lat:36.509253,lon:-4.884078,score:90,label:'El Hospitalillo · rampa 7º, 115 cm'},
- {lat:36.508987,lon:-4.884493,score:92,label:'Calle Tetuán → Estatua La Bella del Mar'},
- {lat:36.509315,lon:-4.884754,score:88,label:'Subida hacia Plaza de África'},
- {lat:36.509434,lon:-4.885500,score:70,label:'Plaza de África · -3º, semáforo sin acústico'},
- {lat:36.509088,lon:-4.886175,score:58,label:'Acceso a la Alameda · rampa -8º'}
+ {lat:36.510250,lon:-4.884668,score:92,label:'Pl. Gral. Chinchilla · accesible'},
+ {lat:36.510255,lon:-4.884205,score:92,label:'Calle Carmen · accesible'},
+ {lat:36.510080,lon:-4.884099,score:92,label:'Iglesia de la Encarnación · paso a nivel'},
+ {lat:36.510248,lon:-4.883524,score:88,label:'Calle Trinidad · accesible'},
+ {lat:36.510300,lon:-4.883300,score:82,label:'Calle Salinas · -4º'},
+ {lat:36.510086,lon:-4.882808,score:90,label:'Calle Hospital Bazán · accesible'},
+ {lat:36.509850,lon:-4.882989,score:58,label:'Calle Mendoza · -9º'},
+ {lat:36.509744,lon:-4.883212,score:60,label:'Plaza Altamirano · accesos en pendiente'},
+ {lat:36.509893,lon:-4.883217,score:58,label:'Calle Pelleja · +9º'},
+ {lat:36.509982,lon:-4.883652,score:90,label:'Calle Viento · +2º, 1,40 m'},
+ {lat:36.509444,lon:-4.884242,score:86,label:'Calle Caridad · accesible'},
+ {lat:36.509253,lon:-4.884078,score:88,label:'El Hospitalillo · rampa +7º, 115 cm'},
+ {lat:36.509008,lon:-4.884123,score:90,label:'Calle Tetuán · accesible'},
+ {lat:36.509200,lon:-4.884600,score:90,label:'Calle Enrique del Castillo · accesible'},
+ {lat:36.509293,lon:-4.885063,score:90,label:'Calle Padre F. Echamendi · accesible'},
+ {lat:36.509430,lon:-4.885572,score:82,label:'Calle África · -3º'},
+ {lat:36.508999,lon:-4.886258,score:56,label:'Rampa de acceso a la Alameda · -8º'}
 ];
 
 /* ============================================================
@@ -316,6 +319,10 @@ if(L.polylineDecorator){
   L.polylineDecorator(ROUTE,{patterns:[{offset:22,repeat:70,symbol:L.Symbol.arrowHead({
     pixelSize:12,polygon:true,pathOptions:{stroke:true,color:'#fff',weight:1.5,fillColor:'#1d2433',fillOpacity:1}})}]}).addTo(map);
 }
+
+/* Tramo rojo diminuto: esquina Calle Escuela × Calle Portada (-10º, 95 cm) */
+L.polyline([[36.511268,-4.884600],[36.511280,-4.884545]],{color:'#d23b3b',weight:7,opacity:1,lineCap:'round'})
+  .addTo(map).bindTooltip('Esquina Escuela × Portada · -10º, 95 cm · MUY DIFÍCIL',{sticky:true,className:'seg-tip'});
 
 /* Marcadores de puntos de interés */
 const markers={};
