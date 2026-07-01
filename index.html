@@ -80,6 +80,12 @@
   .legend .row{display:flex;align-items:center;gap:7px}
   .legend .pp{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;font-weight:800;flex:none;font-family:"Segoe UI Symbol",system-ui}
   .legend .cats{display:grid;grid-template-columns:1fr 1fr;gap:2px 8px}
+  .legend-head{display:flex;justify-content:space-between;align-items:center;gap:14px;cursor:pointer;font-size:12px;font-weight:800;color:var(--brand);text-transform:uppercase;letter-spacing:.4px}
+  .legend-tog{transition:transform .2s;font-size:11px}
+  .legend.collapsed .legend-body{display:none}
+  .legend.collapsed .legend-head{margin:0}
+  .legend.collapsed .legend-tog{transform:rotate(-90deg)}
+  .legend-body{margin-top:6px}
 
   /* Detail panel */
   #detail{position:absolute;top:0;right:0;height:100%;width:400px;max-width:92vw;background:#fff;box-shadow:-8px 0 30px rgba(20,30,50,.18);transform:translateX(105%);transition:transform .28s cubic-bezier(.4,.1,.2,1);z-index:1000;display:flex;flex-direction:column}
@@ -108,6 +114,8 @@
     #side{width:100%;max-width:100%;height:46%;border-right:none;border-bottom:1px solid var(--line)}
     #map{height:54%}
     #detail{width:100%;max-width:100%}
+    .legend{max-width:62vw;font-size:11px;line-height:1.5;max-height:42vh;overflow:auto;padding:8px 10px}
+    .legend .cats{grid-template-columns:1fr}
   }
   .leaflet-popup-content{margin:9px 12px;font-size:13px}
   .leaflet-tooltip.seg-tip{font-size:11.5px;font-weight:600;padding:3px 8px}
@@ -349,7 +357,9 @@ map.fitBounds(L.polyline(ROUTE).getBounds().pad(0.12));
 /* Leyenda */
 const lg=L.control({position:'bottomright'});
 lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
-  `<b>Accesibilidad del tramo</b>
+  `<div class="legend-head"><span>Leyenda</span><span class="legend-tog">▾</span></div>
+   <div class="legend-body">
+   <b>Accesibilidad del tramo</b>
    <div class="grad"></div>
    <div class="ends"><span>Accesible</span><span>Muy difícil</span></div>
    <div style="font-size:10.5px;color:#6b7280;margin:0 0 2px">pendiente · anchura · barreras</div>
@@ -364,16 +374,21 @@ lg.onAdd=()=>{const d=L.DomUtil.create('div','legend');d.innerHTML=
      <div>🏛️ Edif. histórico</div><div>⛪ Templo</div>
      <div>🖼️ Museo</div><div>🗿 Monumento</div>
      <div>ℹ️ Turismo</div>
-   </div>`;
+   </div></div>`;
+  L.DomEvent.disableClickPropagation(d);
+  L.DomEvent.disableScrollPropagation(d);
+  d.querySelector('.legend-head').addEventListener('click',()=>d.classList.toggle('collapsed'));
+  if(window.innerWidth<=760) d.classList.add('collapsed');
   return d;};
 lg.addTo(map);
 
 /* Enlace Google Maps a pie */
 document.getElementById('gm').href=
  'https://www.google.com/maps/dir/?api=1&travelmode=walking'+
- '&origin=36.512515,-4.885116&destination=36.509088,-4.886175'+
- '&waypoints=36.510833,-4.885367%7C36.510247,-4.884998%7C36.509749,-4.883857'+
- '%7C36.510300,-4.883025%7C36.510263,-4.882805%7C36.509253,-4.884078%7C36.508987,-4.884493';
+ '&origin=36.512314,-4.885174&destination=36.508999,-4.886258'+
+ '&waypoints=36.511321,-4.884497%7C36.510833,-4.885367%7C36.510247,-4.884998'+
+ '%7C36.509749,-4.883857%7C36.510300,-4.883025%7C36.510263,-4.882805'+
+ '%7C36.509253,-4.884078%7C36.508987,-4.884493';
 
 /* ============================================================
    Listado lateral
