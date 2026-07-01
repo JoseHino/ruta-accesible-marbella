@@ -161,7 +161,7 @@
    Geometría real de la ruta (waypoints del usuario en Google Maps,
    enrutados por el callejero real de OpenStreetMap)
    ============================================================ */
-const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275],[36.511548,-4.884884],[36.511271,-4.884800],[36.511324,-4.884609],[36.511265,-4.884576],[36.511274,-4.884550],[36.511462,-4.883984],[36.511483,-4.883994],[36.511296,-4.884556],[36.511287,-4.884581],[36.511347,-4.884608],[36.511292,-4.884809],[36.511271,-4.884800],[36.511122,-4.885333],[36.511009,-4.885356],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510273,-4.885255],[36.510179,-4.885237],[36.510267,-4.884730],[36.510366,-4.884795],[36.510403,-4.884737],[36.510272,-4.884678],[36.510397,-4.884270],[36.510255,-4.884205],[36.510028,-4.884165],[36.510190,-4.883610],[36.510259,-4.883497],[36.510344,-4.883159],[36.510106,-4.883163],[36.510086,-4.882808],[36.509989,-4.882778],[36.509777,-4.883080],[36.509744,-4.883212],[36.509893,-4.883217],[36.509901,-4.883190],[36.510062,-4.883219],[36.509982,-4.883652],[36.509988,-4.883798],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509298,-4.885134],[36.509409,-4.885579],[36.509140,-4.885670],[36.509035,-4.885731],[36.509170,-4.886181],[36.509088,-4.886175],[36.508999,-4.886258]];
+const ROUTE = [[36.512314,-4.885174],[36.512181,-4.885186],[36.511543,-4.885275],[36.511548,-4.884884],[36.511294,-4.884771],[36.511324,-4.884609],[36.511265,-4.884576],[36.511274,-4.884550],[36.511462,-4.883984],[36.511483,-4.883994],[36.511296,-4.884556],[36.511287,-4.884581],[36.511347,-4.884608],[36.511292,-4.884809],[36.511248,-4.884829],[36.511122,-4.885333],[36.511009,-4.885356],[36.510980,-4.885389],[36.510875,-4.885330],[36.510825,-4.885398],[36.510605,-4.885323],[36.510601,-4.885377],[36.510314,-4.885311],[36.510273,-4.885255],[36.510098,-4.885205],[36.510079,-4.885126],[36.510152,-4.884760],[36.510215,-4.884714],[36.510267,-4.884730],[36.510397,-4.884270],[36.510255,-4.884205],[36.510028,-4.884165],[36.510190,-4.883610],[36.510259,-4.883497],[36.510344,-4.883159],[36.510107,-4.883162],[36.510086,-4.882808],[36.509989,-4.882778],[36.509777,-4.883080],[36.509744,-4.883212],[36.509893,-4.883217],[36.509901,-4.883190],[36.510061,-4.883220],[36.509982,-4.883652],[36.509988,-4.883798],[36.509800,-4.884207],[36.509810,-4.884236],[36.509633,-4.884277],[36.509626,-4.884302],[36.509008,-4.884123],[36.508959,-4.884730],[36.509315,-4.884754],[36.509298,-4.885134],[36.509409,-4.885579],[36.509140,-4.885670],[36.509035,-4.885731],[36.509170,-4.886181],[36.509088,-4.886175],[36.509017,-4.886241],[36.508999,-4.886258]];
 
 /* ============================================================
    CATEGORÍAS de los puntos de interés
@@ -181,7 +181,7 @@ const CAT={
    acc:true = accesible · acc:false = NO accesible (pin rojo + ✕)
    ============================================================ */
 const POIS=[
- {n:1,cat:'religioso',acc:false,lat:36.512515,lon:-4.885116,name:'Ermita del Santo Cristo de la Vera Cruz',tag:'INICIO',
+ {n:1,cat:'religioso',acc:false,lat:36.512410,lon:-4.885146,name:'Ermita del Santo Cristo de la Vera Cruz',tag:'INICIO',
   specs:{Rampa:'+7º · 90 cm',Edificio:'No accesible',Barrera:'Escalón'},chips:[['Rampa +7º','warn'],['90 cm','warn'],['Escalón','bad'],['Plaza accesible','good']],
   note:'Punto de partida. El acceso tiene una rampa de +7º y 90 cm de ancho, pero para entrar al edificio hay un escalón que lo hace NO accesible en silla de ruedas. La plaza sí es accesible (paso a nivel, 2 cm).'},
 
@@ -197,11 +197,11 @@ const POIS=[
   specs:{Fachada:'S. XVI (gótico-mudéjar)',Entorno:'Accesible'},chips:[['Edificio histórico','cat'],['Entorno accesible','good']],
   note:'En la Plaza de los Naranjos. Una de las fachadas históricas más notables del casco antiguo; entorno accesible a nivel.'},
 
- {n:4,cat:'historico',acc:true,lat:36.510513,lon:-4.885134,name:'Ayuntamiento (Casa Consistorial)',
+ {n:4,cat:'historico',acc:true,lat:36.510499,lon:-4.885229,name:'Ayuntamiento (Casa Consistorial)',
   specs:{Época:'S. XVI',Entorno:'Accesible'},chips:[['Edificio histórico','cat'],['Accesible','good']],
   note:'Casa Consistorial en la Plaza de los Naranjos. Edificio histórico; acceso a nivel desde la plaza.'},
 
- {n:5,cat:'servicio',acc:true,star:true,lat:36.510250,lon:-4.884900,name:'Oficina de Turismo',
+ {n:5,cat:'servicio',acc:true,star:true,lat:36.510370,lon:-4.884736,name:'Oficina de Turismo',
   specs:{Acceso:'Paso a nivel',Audición:'Bucle magnético'},chips:[['Accesible','good'],['Bucle inducción','star']],
   note:'En la Plaza de los Naranjos. Paso a nivel y bucles de inducción magnética (clave para personas con audífono o implante coclear).'},
 
@@ -213,7 +213,7 @@ const POIS=[
   specs:{Puerta:'2,20 m',Acceso:'Paso a nivel'},chips:[['Puerta 2,20 m','good'],['Paso a nivel','good']],
   note:'Junto a la Plaza de los Naranjos (Pl. Fernando Alcalá). Accesible: puerta de 2,20 m y entrada a nivel.'},
 
- {n:8,cat:'religioso',acc:true,lat:36.509749,lon:-4.883857,name:'Iglesia de la Encarnación',
+ {n:8,cat:'religioso',acc:true,lat:36.509823,lon:-4.883910,name:'Iglesia de la Encarnación',
   specs:{Edificio:'Accesible'},chips:[['Accesible','good']],
   note:'Parroquia de Nuestra Señora de la Encarnación, el principal templo del casco antiguo. Es accesible.'},
 
@@ -221,7 +221,7 @@ const POIS=[
   specs:{Edificio:'No accesible',Barrera:'Escalón'},chips:[['Escalón','bad'],['No accesible','bad']],
   note:'En Calle Trinidad. NO es accesible: hay un escalón en el acceso.'},
 
- {n:10,cat:'museo',acc:true,lat:36.510263,lon:-4.882805,name:'Museo del Grabado Español Contemporáneo',
+ {n:10,cat:'museo',acc:true,lat:36.510185,lon:-4.882812,name:'Museo del Grabado Español Contemporáneo',
   specs:{Sede:'Hospital Bazán',Museo:'Accesible'},chips:[['Museo accesible','good'],['Edificio histórico','cat']],
   note:'En el Hospital Bazán, uno de los pocos ejemplos de arquitectura civil renacentista de la ciudad. El museo es accesible.'},
 
@@ -276,7 +276,7 @@ const SEG=[
  {lat:36.509200,lon:-4.884600,score:90,label:'Calle Enrique del Castillo · accesible'},
  {lat:36.509293,lon:-4.885063,score:90,label:'Calle Padre F. Echamendi · accesible'},
  {lat:36.509430,lon:-4.885572,score:82,label:'Calle África · -3º'},
- {lat:36.508999,lon:-4.886258,score:56,label:'Rampa de acceso a la Alameda · -8º'}
+ {lat:36.509088,lon:-4.886175,score:85,label:'Bajada a la Alameda (Av. Ramón y Cajal)'}
 ];
 
 /* ============================================================
@@ -308,12 +308,15 @@ function nearestSeg(lat,lon){
 /* Ruta: funda blanca + tramos coloreados por accesibilidad */
 L.polyline(ROUTE,{color:'#fff',weight:9,opacity:.9,lineCap:'round',lineJoin:'round'}).addTo(map);
 const CORNER=[36.511265,-4.884576];   // esquina Escuela × Portada (rojo)
+const RAMP=[36.508999,-4.886258];     // rampa final de acceso a la Alameda (-8º)
 for(let i=0;i<ROUTE.length-1;i++){
   const a=ROUTE[i],b=ROUTE[i+1];
   const mid=[(a[0]+b[0])/2,(a[1]+b[1])/2];
   let color,label;
   if(map.distance(a,b)<5 && map.distance(mid,CORNER)<4){
     color='#d23b3b'; label='Esquina Escuela × Portada · -10º, 95 cm · <b>Muy difícil</b>';
+  }else if(map.distance(a,b)<6 && map.distance(mid,RAMP)<4){
+    color='#e0a800'; label='Rampa de acceso a la Alameda · -8º · <b>Dificultad moderada</b>';
   }else{
     const seg=nearestSeg(mid[0],mid[1]);
     color=scoreColor(seg.score); label=`${seg.label} · <b>${scoreLabel(seg.score)}</b>`;
